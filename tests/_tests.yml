@@ -1,0 +1,34 @@
+version: 2
+
+data_tests:
+  - name: assert_positive_account_balance
+    description: >
+      Verifica que las cuentas de ahorro y depósito tengan saldo positivo.
+      Las cuentas de crédito (tarjetas) pueden tener saldo negativo.
+
+  - name: assert_tae_excludes_commissions
+    description: >
+      Verifica que el cálculo de TAE sea realista.
+      IMPORTANTE: La TAE debe incluir todas las comisiones según normativa del Banco de España.
+      Un TAE igual al tipo de interés nominal indica que no se están incluyendo las comisiones
+      de apertura, seguros vinculados, etc.
+
+      Este test detecta préstamos donde TAE ≈ TIN, lo cual es sospechoso.
+
+  - name: assert_transactions_exclude_reversed
+    description: >
+      Verifica que las métricas de rentabilidad excluyan transacciones revertidas.
+      Las transacciones marcadas como 'reversed' (fraude, errores) no deben
+      computar en los cálculos de ingresos/gastos.
+
+  - name: assert_loan_default_rate_threshold
+    description: >
+      Verifica que la tasa de morosidad esté dentro de umbrales aceptables.
+      Según estándares del sector bancario español, una tasa de morosidad
+      superior al 5% requiere atención inmediata.
+
+  - name: assert_valid_customer_segment
+    description: >
+      Verifica la coherencia entre segmento de cliente y edad.
+      Los clientes 'Young' deben tener menos de 30 años.
+      Los clientes 'Senior' deben tener más de 60 años.

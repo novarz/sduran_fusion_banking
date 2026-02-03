@@ -1,0 +1,48 @@
+# Proyecto dbt de Banca Retail - Demo para España
+# Este proyecto simula un banco minorista con clientes, cuentas, transacciones y préstamos
+
+name: 'sduran_fusion_banking'
+version: '1.0.0'
+config-version: 2
+
+# Configuración de dbt Cloud (actualizar con tu project-id)
+dbt-cloud:
+    project-id: 14101
+
+profile: 'analytics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  sduran_fusion_banking:
+    # Staging layer - datos fuente limpiados
+    staging:
+      +materialized: view
+      +docs:
+        node_color: "#1E3A5F"  # Azul oscuro bancario
+
+    # Intermediate layer - transformaciones de lógica de negocio
+    intermediate:
+      +materialized: view
+      +docs:
+        node_color: "#3182CE"  # Azul medio
+
+    # Marts layer - entidades de negocio finales
+    marts:
+      +materialized: table
+      +docs:
+        node_color: "#48BB78"  # Verde éxito
+
+seeds:
+  sduran_fusion_banking:
+    +schema: raw_data

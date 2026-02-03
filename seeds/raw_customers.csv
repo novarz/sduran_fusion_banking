@@ -1,0 +1,101 @@
+id,first_name,last_name,dni,email,phone,gender,birth_date,city,state,country,customer_since,customer_segment,_etl_loaded_at
+1,Miguel,García,12345678A,miguel.garcia@email.com,+34612345001,M,1975-03-15,Madrid,Madrid,España,2015-01-10,Premium,2024-01-15
+2,Carmen,López,23456789B,carmen.lopez@email.com,+34612345002,F,1982-07-22,Barcelona,Cataluña,España,2015-02-15,Standard,2024-01-15
+3,Antonio,Martínez,34567890C,antonio.martinez@email.com,+34612345003,M,1968-11-05,Valencia,Valencia,España,2015-03-20,Premium,2024-01-15
+4,María,Sánchez,45678901D,maria.sanchez@email.com,+34612345004,F,1990-04-18,Sevilla,Andalucía,España,2015-04-25,Young,2024-01-15
+5,Francisco,Fernández,56789012E,francisco.fernandez@email.com,+34612345005,M,1955-09-30,Zaragoza,Aragón,España,2015-05-01,Senior,2024-01-15
+6,Ana,González,67890123F,ana.gonzalez@email.com,+34612345006,F,1988-12-12,Málaga,Andalucía,España,2015-06-10,Standard,2024-01-15
+7,José,Rodríguez,78901234G,jose.rodriguez@email.com,+34612345007,M,1972-06-25,Bilbao,País Vasco,España,2015-07-15,Premium,2024-01-15
+8,Isabel,Pérez,89012345H,isabel.perez@email.com,+34612345008,F,1995-02-08,Alicante,Valencia,España,2015-08-20,Young,2024-01-15
+9,David,Gómez,90123456J,david.gomez@email.com,+34612345009,M,1963-08-14,Córdoba,Andalucía,España,2015-09-25,Senior,2024-01-15
+10,Laura,Ruiz,01234567K,laura.ruiz@email.com,+34612345010,F,1985-05-28,Valladolid,Castilla y León,España,2015-10-01,Standard,2024-01-15
+11,Carlos,Díaz,11223344L,carlos.diaz@email.com,+34612345011,M,1978-01-17,Vigo,Galicia,España,2015-11-05,Premium,2024-01-15
+12,Marta,Hernández,22334455M,marta.hernandez@email.com,+34612345012,F,1992-10-03,Gijón,Asturias,España,2015-12-10,Young,2024-01-15
+13,Javier,Moreno,33445566N,javier.moreno@email.com,+34612345013,M,1960-04-21,Granada,Andalucía,España,2016-01-15,Senior,2024-01-15
+14,Elena,Álvarez,44556677P,elena.alvarez@email.com,+34612345014,F,1983-09-07,A Coruña,Galicia,España,2016-02-20,Standard,2024-01-15
+15,Pablo,Muñoz,55667788Q,pablo.munoz@email.com,+34612345015,M,1970-12-29,San Sebastián,País Vasco,España,2016-03-25,Premium,2024-01-15
+16,Lucía,Romero,66778899R,lucia.romero@email.com,+34612345016,F,1997-07-11,Pamplona,Navarra,España,2016-04-01,Young,2024-01-15
+17,Sergio,Jiménez,77889900S,sergio.jimenez@email.com,+34612345017,M,1958-03-04,Santander,Cantabria,España,2016-05-05,Senior,2024-01-15
+18,Patricia,Torres,88990011T,patricia.torres@email.com,+34612345018,F,1986-11-16,Salamanca,Castilla y León,España,2016-06-10,Standard,2024-01-15
+19,Raúl,Navarro,99001122V,raul.navarro@email.com,+34612345019,M,1974-06-23,Burgos,Castilla y León,España,2016-07-15,Premium,2024-01-15
+20,Cristina,Domínguez,00112233W,cristina.dominguez@email.com,+34612345020,F,1991-01-30,Albacete,Castilla-La Mancha,España,2016-08-20,Young,2024-01-15
+21,Fernando,Vázquez,11223344X,fernando.vazquez@email.com,+34612345021,M,1965-08-09,Badajoz,Extremadura,España,2016-09-25,Senior,2024-01-15
+22,Beatriz,Ramos,22334455Y,beatriz.ramos@email.com,+34612345022,F,1980-02-14,Logroño,La Rioja,España,2016-10-01,Standard,2024-01-15
+23,Alberto,Gil,33445566Z,alberto.gil@email.com,+34612345023,M,1976-10-26,Oviedo,Asturias,España,2016-11-05,Premium,2024-01-15
+24,Rocío,Serrano,44556678A,rocio.serrano@email.com,+34612345024,F,1993-05-19,Murcia,Murcia,España,2016-12-10,Young,2024-01-15
+25,Víctor,Blanco,55667789B,victor.blanco@email.com,+34612345025,M,1962-12-02,Palma,Islas Baleares,España,2017-01-15,Senior,2024-01-15
+26,Sandra,Castro,66778890C,sandra.castro@email.com,+34612345026,F,1987-07-25,Las Palmas,Canarias,España,2017-02-20,Standard,2024-01-15
+27,Adrián,Ortega,77889901D,adrian.ortega@email.com,+34612345027,M,1979-03-08,Santa Cruz,Canarias,España,2017-03-25,Premium,2024-01-15
+28,Paula,Rubio,88990012E,paula.rubio@email.com,+34612345028,F,1996-09-21,Vitoria,País Vasco,España,2017-04-01,Young,2024-01-15
+29,Diego,Molina,99001123F,diego.molina@email.com,+34612345029,M,1957-04-14,Toledo,Castilla-La Mancha,España,2017-05-05,Senior,2024-01-15
+30,Silvia,Delgado,00112234G,silvia.delgado@email.com,+34612345030,F,1984-11-27,Cáceres,Extremadura,España,2017-06-10,Standard,2024-01-15
+31,Álvaro,Ortiz,11223345H,alvaro.ortiz@email.com,+34612345031,M,1971-06-10,León,Castilla y León,España,2017-07-15,Premium,2024-01-15
+32,Nuria,Marín,22334456J,nuria.marin@email.com,+34612345032,F,1989-01-23,Tarragona,Cataluña,España,2017-08-20,Standard,2024-01-15
+33,Rubén,Iglesias,33445567K,ruben.iglesias@email.com,+34612345033,M,1977-08-06,Lleida,Cataluña,España,2017-09-25,Premium,2024-01-15
+34,Eva,Santos,44556678L,eva.santos@email.com,+34612345034,F,1994-03-19,Girona,Cataluña,España,2017-10-01,Young,2024-01-15
+35,Iván,Medina,55667789M,ivan.medina@email.com,+34612345035,M,1959-10-02,Almería,Andalucía,España,2017-11-05,Senior,2024-01-15
+36,Alicia,Castillo,66778890N,alicia.castillo@email.com,+34612345036,F,1981-05-15,Huelva,Andalucía,España,2017-12-10,Standard,2024-01-15
+37,Óscar,Garrido,77889901P,oscar.garrido@email.com,+34612345037,M,1973-12-28,Jaén,Andalucía,España,2018-01-15,Premium,2024-01-15
+38,Marina,Cortés,88990012Q,marina.cortes@email.com,+34612345038,F,1998-07-11,Cádiz,Andalucía,España,2018-02-20,Young,2024-01-15
+39,Marcos,Lozano,99001123R,marcos.lozano@email.com,+34612345039,M,1964-02-24,Segovia,Castilla y León,España,2018-03-25,Senior,2024-01-15
+40,Inés,Guerrero,00112234S,ines.guerrero@email.com,+34612345040,F,1986-09-07,Ávila,Castilla y León,España,2018-04-01,Standard,2024-01-15
+41,Hugo,Cano,11223345T,hugo.cano@email.com,+34612345041,M,1975-04-20,Soria,Castilla y León,España,2018-05-05,Premium,2024-01-15
+42,Lorena,Prieto,22334456V,lorena.prieto@email.com,+34612345042,F,1992-11-03,Teruel,Aragón,España,2018-06-10,Young,2024-01-15
+43,Guillermo,Méndez,33445567W,guillermo.mendez@email.com,+34612345043,M,1961-06-16,Huesca,Aragón,España,2018-07-15,Senior,2024-01-15
+44,Irene,Calvo,44556678X,irene.calvo@email.com,+34612345044,F,1983-01-29,Cuenca,Castilla-La Mancha,España,2018-08-20,Standard,2024-01-15
+45,Daniel,Herrera,55667789Y,daniel.herrera@email.com,+34612345045,M,1969-08-12,Ciudad Real,Castilla-La Mancha,España,2018-09-25,Premium,2024-01-15
+46,Andrea,Fuentes,66778890Z,andrea.fuentes@email.com,+34612345046,F,1995-03-25,Guadalajara,Castilla-La Mancha,España,2018-10-01,Young,2024-01-15
+47,Jorge,Cabrera,77889902A,jorge.cabrera@email.com,+34612345047,M,1956-10-08,Pontevedra,Galicia,España,2018-11-05,Senior,2024-01-15
+48,Claudia,Campos,88990013B,claudia.campos@email.com,+34612345048,F,1988-05-21,Ourense,Galicia,España,2018-12-10,Standard,2024-01-15
+49,Alejandro,Vega,99001124C,alejandro.vega@email.com,+34612345049,M,1972-12-04,Lugo,Galicia,España,2019-01-15,Premium,2024-01-15
+50,Natalia,Reyes,00112235D,natalia.reyes@email.com,+34612345050,F,1990-07-17,Zamora,Castilla y León,España,2019-02-20,Young,2024-01-15
+51,Manuel,León,11223346E,manuel.leon@email.com,+34612345051,M,1967-02-01,Palencia,Castilla y León,España,2019-03-25,Senior,2024-01-15
+52,Sara,Peña,22334457F,sara.pena@email.com,+34612345052,F,1982-09-14,Mérida,Extremadura,España,2019-04-01,Standard,2024-01-15
+53,Roberto,Herrero,33445568G,roberto.herrero@email.com,+34612345053,M,1974-04-27,Plasencia,Extremadura,España,2019-05-05,Premium,2024-01-15
+54,Clara,Nieto,44556679H,clara.nieto@email.com,+34612345054,F,1993-11-10,Jerez,Andalucía,España,2019-06-10,Young,2024-01-15
+55,Enrique,Pascual,55667790J,enrique.pascual@email.com,+34612345055,M,1960-06-23,Marbella,Andalucía,España,2019-07-15,Senior,2024-01-15
+56,Mónica,Ferrer,66778891K,monica.ferrer@email.com,+34612345056,F,1985-01-06,Ronda,Andalucía,España,2019-08-20,Standard,2024-01-15
+57,Rafael,Ibáñez,77889902L,rafael.ibanez@email.com,+34612345057,M,1977-08-19,Antequera,Andalucía,España,2019-09-25,Premium,2024-01-15
+58,Teresa,Arias,88990013M,teresa.arias@email.com,+34612345058,F,1996-03-02,Úbeda,Andalucía,España,2019-10-01,Young,2024-01-15
+59,Andrés,Lorenzo,99001124N,andres.lorenzo@email.com,+34612345059,M,1963-10-15,Baeza,Andalucía,España,2019-11-05,Senior,2024-01-15
+60,Victoria,Durán,00112235P,victoria.duran@email.com,+34612345060,F,1987-05-28,Écija,Andalucía,España,2019-12-10,Standard,2024-01-15
+61,Pedro,Soto,11223346Q,pedro.soto@email.com,+34612345061,M,1970-12-11,Carmona,Andalucía,España,2020-01-15,Premium,2024-01-15
+62,Julia,Vargas,22334457R,julia.vargas@email.com,+34612345062,F,1991-07-24,Linares,Andalucía,España,2020-02-20,Young,2024-01-15
+63,Tomás,Montero,33445568S,tomas.montero@email.com,+34612345063,M,1958-02-07,Motril,Andalucía,España,2020-03-25,Senior,2024-01-15
+64,Rosa,Hidalgo,44556679T,rosa.hidalgo@email.com,+34612345064,F,1984-09-20,Guadix,Andalucía,España,2020-04-01,Standard,2024-01-15
+65,Luis,Giménez,55667790V,luis.gimenez@email.com,+34612345065,M,1976-04-03,Alcoy,Valencia,España,2020-05-05,Premium,2024-01-15
+66,Verónica,Aguilar,66778891W,veronica.aguilar@email.com,+34612345066,F,1994-11-16,Elche,Valencia,España,2020-06-10,Young,2024-01-15
+67,Mario,Carrasco,77889902X,mario.carrasco@email.com,+34612345067,M,1961-06-29,Orihuela,Valencia,España,2020-07-15,Senior,2024-01-15
+68,Esther,Gallego,88990013Y,esther.gallego@email.com,+34612345068,F,1983-01-12,Benidorm,Valencia,España,2020-08-20,Standard,2024-01-15
+69,Nicolás,Cruz,99001124Z,nicolas.cruz@email.com,+34612345069,M,1978-08-25,Gandía,Valencia,España,2020-09-25,Premium,2024-01-15
+70,Pilar,Flores,00112236A,pilar.flores@email.com,+34612345070,F,1997-03-08,Sagunto,Valencia,España,2020-10-01,Young,2024-01-15
+71,Ismael,Soler,11223347B,ismael.soler@email.com,+34612345071,M,1964-10-21,Castellón,Valencia,España,2020-11-05,Senior,2024-01-15
+72,Carolina,Bravo,22334458C,carolina.bravo@email.com,+34612345072,F,1986-05-04,Tortosa,Cataluña,España,2020-12-10,Standard,2024-01-15
+73,Gonzalo,Rojas,33445569D,gonzalo.rojas@email.com,+34612345073,M,1971-12-17,Reus,Cataluña,España,2021-01-15,Premium,2024-01-15
+74,Lidia,Mora,44556680E,lidia.mora@email.com,+34612345074,F,1992-07-01,Sabadell,Cataluña,España,2021-02-20,Young,2024-01-15
+75,Ignacio,Pardo,55667791F,ignacio.pardo@email.com,+34612345075,M,1959-01-14,Terrassa,Cataluña,España,2021-03-25,Senior,2024-01-15
+76,Miriam,Velasco,66778892G,miriam.velasco@email.com,+34612345076,F,1981-08-27,Mataró,Cataluña,España,2021-04-01,Standard,2024-01-15
+77,Joaquín,Caballero,77889903H,joaquin.caballero@email.com,+34612345077,M,1973-03-10,Badalona,Cataluña,España,2021-05-05,Premium,2024-01-15
+78,Olga,Sáez,88990014J,olga.saez@email.com,+34612345078,F,1995-10-23,Hospitalet,Cataluña,España,2021-06-10,Young,2024-01-15
+79,Emilio,Pastor,99001125K,emilio.pastor@email.com,+34612345079,M,1966-05-06,Cornellá,Cataluña,España,2021-07-15,Senior,2024-01-15
+80,Nerea,Esteban,00112236L,nerea.esteban@email.com,+34612345080,F,1988-12-19,Sant Cugat,Cataluña,España,2021-08-20,Standard,2024-01-15
+81,Ricardo,Vicente,11223347M,ricardo.vicente@email.com,+34612345081,M,1975-07-02,Manresa,Cataluña,España,2021-09-25,Premium,2024-01-15
+82,Sonia,Franco,22334458N,sonia.franco@email.com,+34612345082,F,1990-01-15,Vic,Cataluña,España,2021-10-01,Young,2024-01-15
+83,Felipe,Espinosa,33445569P,felipe.espinosa@email.com,+34612345083,M,1962-08-28,Figueres,Cataluña,España,2021-11-05,Senior,2024-01-15
+84,Aurora,Román,44556680Q,aurora.roman@email.com,+34612345084,F,1984-03-13,Olot,Cataluña,España,2021-12-10,Standard,2024-01-15
+85,Eduardo,Moya,55667791R,eduardo.moya@email.com,+34612345085,M,1977-10-26,Ripoll,Cataluña,España,2022-01-15,Premium,2024-01-15
+86,Gemma,Suárez,66778892S,gemma.suarez@email.com,+34612345086,F,1993-05-09,Puigcerdá,Cataluña,España,2022-02-20,Young,2024-01-15
+87,Arturo,Gallardo,77889903T,arturo.gallardo@email.com,+34612345087,M,1960-12-22,Sort,Cataluña,España,2022-03-25,Senior,2024-01-15
+88,Yolanda,Marcos,88990014V,yolanda.marcos@email.com,+34612345088,F,1982-07-05,Vielha,Cataluña,España,2022-04-01,Standard,2024-01-15
+89,Samuel,Guerrero,99001125W,samuel.guerrero@email.com,+34612345089,M,1974-01-18,Tremp,Cataluña,España,2022-05-05,Premium,2024-01-15
+90,Amparo,Núñez,00112236X,amparo.nunez@email.com,+34612345090,F,1996-08-31,Balaguer,Cataluña,España,2022-06-10,Young,2024-01-15
+91,Héctor,Santana,11223347Y,hector.santana@email.com,+34612345091,M,1967-03-16,Tàrrega,Cataluña,España,2022-07-15,Senior,2024-01-15
+92,Remedios,Crespo,22334458Z,remedios.crespo@email.com,+34612345092,F,1985-10-29,Cervera,Cataluña,España,2022-08-20,Standard,2024-01-15
+93,Borja,Carmona,33445570A,borja.carmona@email.com,+34612345093,M,1979-05-12,Solsona,Cataluña,España,2022-09-25,Premium,2024-01-15
+94,Marisol,Cabello,44556681B,marisol.cabello@email.com,+34612345094,F,1991-12-25,Berga,Cataluña,España,2022-10-01,Young,2024-01-15
+95,Nacho,Bernal,55667792C,nacho.bernal@email.com,+34612345095,M,1963-07-08,Igualada,Cataluña,España,2022-11-05,Senior,2024-01-15
+96,Consuelo,Aparicio,66778893D,consuelo.aparicio@email.com,+34612345096,F,1987-01-21,Vilafranca,Cataluña,España,2022-12-10,Standard,2024-01-15
+97,Ramón,Escobar,77889904E,ramon.escobar@email.com,+34612345097,M,1972-08-04,Vilanova,Cataluña,España,2023-01-15,Premium,2024-01-15
+98,Dolores,Miranda,88990015F,dolores.miranda@email.com,+34612345098,F,1994-02-17,Sitges,Cataluña,España,2023-02-20,Young,2024-01-15
+99,Alfredo,Rivero,99001126G,alfredo.rivero@email.com,+34612345099,M,1965-09-30,Calella,Cataluña,España,2023-03-25,Senior,2024-01-15
+100,Esperanza,Benítez,00112237H,esperanza.benitez@email.com,+34612345100,F,1989-04-13,Blanes,Cataluña,España,2023-04-01,Standard,2024-01-15

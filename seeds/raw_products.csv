@@ -1,0 +1,31 @@
+id,product_name,product_type,category,interest_rate,annual_fee,min_balance,is_active,launch_date,_etl_loaded_at
+1,Cuenta Corriente Básica,Account,Cuenta Corriente,0.00,0.00,0.00,true,2010-01-01,2024-01-15
+2,Cuenta Nómina Plus,Account,Cuenta Nómina,0.10,0.00,0.00,true,2010-01-01,2024-01-15
+3,Cuenta Ahorro Flexible,Account,Cuenta Ahorro,0.50,0.00,100.00,true,2010-01-01,2024-01-15
+4,Cuenta Ahorro Premium,Account,Cuenta Ahorro,1.25,0.00,5000.00,true,2012-03-01,2024-01-15
+5,Cuenta Joven,Account,Cuenta Joven,0.75,0.00,0.00,true,2011-06-01,2024-01-15
+6,Cuenta Senior,Account,Cuenta Senior,0.80,0.00,0.00,true,2013-01-01,2024-01-15
+7,Depósito a Plazo 12 Meses,Deposit,Depósito,2.50,0.00,1000.00,true,2010-01-01,2024-01-15
+8,Depósito a Plazo 24 Meses,Deposit,Depósito,3.00,0.00,1000.00,true,2010-01-01,2024-01-15
+9,Tarjeta Débito Básica,Card,Tarjeta Débito,0.00,0.00,0.00,true,2010-01-01,2024-01-15
+10,Tarjeta Débito Gold,Card,Tarjeta Débito,0.00,30.00,0.00,true,2012-01-01,2024-01-15
+11,Tarjeta Crédito Clásica,Card,Tarjeta Crédito,18.99,40.00,0.00,true,2010-01-01,2024-01-15
+12,Tarjeta Crédito Oro,Card,Tarjeta Crédito,16.99,80.00,0.00,true,2011-01-01,2024-01-15
+13,Tarjeta Crédito Platinum,Card,Tarjeta Crédito,14.99,200.00,0.00,true,2012-01-01,2024-01-15
+14,Préstamo Personal,Loan,Préstamo Personal,7.50,0.00,0.00,true,2010-01-01,2024-01-15
+15,Préstamo Coche,Loan,Préstamo Auto,5.90,0.00,0.00,true,2010-01-01,2024-01-15
+16,Hipoteca Fija,Loan,Hipoteca,3.50,0.00,0.00,true,2010-01-01,2024-01-15
+17,Hipoteca Variable,Loan,Hipoteca,2.50,0.00,0.00,true,2010-01-01,2024-01-15
+18,Hipoteca Mixta,Loan,Hipoteca,2.90,0.00,0.00,true,2015-01-01,2024-01-15
+19,Préstamo Estudios,Loan,Préstamo Estudios,4.50,0.00,0.00,true,2014-01-01,2024-01-15
+20,Línea de Crédito,Credit,Línea de Crédito,9.90,50.00,0.00,true,2011-01-01,2024-01-15
+21,Fondo Inversión Conservador,Investment,Fondo Inversión,0.00,0.50,500.00,true,2012-01-01,2024-01-15
+22,Fondo Inversión Moderado,Investment,Fondo Inversión,0.00,0.75,1000.00,true,2012-01-01,2024-01-15
+23,Fondo Inversión Agresivo,Investment,Fondo Inversión,0.00,1.00,2000.00,true,2012-01-01,2024-01-15
+24,Plan de Pensiones,Investment,Plan Pensiones,0.00,0.60,50.00,true,2010-01-01,2024-01-15
+25,Seguro de Vida,Insurance,Seguro,0.00,120.00,0.00,true,2011-01-01,2024-01-15
+26,Seguro de Hogar,Insurance,Seguro,0.00,180.00,0.00,true,2011-01-01,2024-01-15
+27,Cuenta Empresa Básica,Account,Cuenta Empresa,0.00,15.00,0.00,true,2010-01-01,2024-01-15
+28,Cuenta Empresa Premium,Account,Cuenta Empresa,0.25,50.00,0.00,true,2013-01-01,2024-01-15
+29,Préstamo PYME,Loan,Préstamo Empresa,6.50,0.00,0.00,true,2012-01-01,2024-01-15
+30,Cuenta Ahorro Infantil,Account,Cuenta Ahorro,1.00,0.00,0.00,false,2014-01-01,2024-01-15

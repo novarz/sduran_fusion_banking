@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartera de Préstamos | Banco Fusión</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="config.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+        }
+
+        .bank-header {
+            background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .bank-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bank-logo .icon {
+            width: 40px;
+            height: 40px;
+            background: #48bb78;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .bank-logo span {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 12px;
+        }
+
+        .toolbar {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title h1 {
+            font-size: 20px;
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        .badge {
+            background: #48bb78;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+
+        .badge.warning {
+            background: #f59e0b;
+        }
+
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            padding: 24px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .kpi-card.alert {
+            border-left: 4px solid #e53e3e;
+        }
+
+        .kpi-card .label {
+            color: #718096;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .kpi-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a365d;
+        }
+
+        .kpi-card .value.danger {
+            color: #e53e3e;
+        }
+
+        .kpi-card .change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .kpi-card .change.positive { color: #48bb78; }
+        .kpi-card .change.negative { color: #e53e3e; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 0 24px 24px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h3 {
+            font-size: 16px;
+            color: #1a365d;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 280px;
+        }
+
+        .loan-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .loan-table th,
+        .loan-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .loan-table th {
+            color: #718096;
+            font-weight: 500;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .loan-table td {
+            color: #2d3748;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-badge.active { background: #d1fae5; color: #065f46; }
+        .status-badge.completed { background: #dbeafe; color: #1e40af; }
+        .status-badge.defaulted { background: #fee2e2; color: #991b1b; }
+
+        .risk-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .risk-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .risk-dot.low { background: #48bb78; }
+        .risk-dot.medium { background: #f59e0b; }
+        .risk-dot.high { background: #e53e3e; }
+
+        .alert-banner {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin: 0 24px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-banner .icon {
+            font-size: 24px;
+        }
+
+        .alert-banner .content h4 {
+            color: #991b1b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .alert-banner .content p {
+            color: #7f1d1d;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .dashboard-footer {
+            padding: 16px 24px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .dbt-badge {
+            background: #ff694a;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <header class="bank-header">
+        <div class="bank-logo">
+            <div class="icon">BF</div>
+            <span>Banco Fusión</span>
+        </div>
+        <div>
+            <button class="header-btn">📊 Exportar</button>
+            <button class="header-btn">🔄 Actualizar</button>
+            <button class="header-btn">👤 Riesgos</button>
+        </div>
+    </header>
+
+    <div class="toolbar">
+        <div class="dashboard-title" style="display: flex; align-items: center;">
+            <h1>Informe de Cartera de Préstamos</h1>
+            <span class="badge">PRODUCCIÓN</span>
+            <span class="badge warning">⚠️ 3 Alertas</span>
+        </div>
+        <div>
+            <select style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px;">
+                <option>Todos los productos</option>
+                <option>Hipotecas</option>
+                <option>Préstamos Personales</option>
+                <option>Préstamos Auto</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="alert-banner">
+        <div class="icon">⚠️</div>
+        <div class="content">
+            <h4>Alerta: Tasa de morosidad elevada en Préstamos Personales</h4>
+            <p>La tasa de morosidad del 8.57% supera el umbral del 5% establecido por el Banco de España. Se requiere revisión inmediata.</p>
+        </div>
+    </div>
+
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <div class="label">Cartera Total</div>
+            <div class="value">€4.82M</div>
+            <div class="change positive">↑ 18% vs año anterior</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Préstamos Activos</div>
+            <div class="value">28</div>
+            <div class="change positive">↑ 5 nuevos este año</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Saldo Pendiente</div>
+            <div class="value">€3.95M</div>
+            <div class="change">82% de la cartera</div>
+        </div>
+        <div class="kpi-card alert">
+            <div class="label">Tasa Morosidad Global</div>
+            <div class="value danger">8.57%</div>
+            <div class="change negative">↑ 2.1pp vs año anterior</div>
+        </div>
+        <div class="kpi-card">
+            <div class="label">Ingresos por Intereses</div>
+            <div class="value">€892K</div>
+            <div class="change positive">↑ 12% vs año anterior</div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Distribución de Cartera por Producto</h3>
+            <div class="chart-container">
+                <canvas id="portfolioChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Morosidad por Tipo de Producto</h3>
+            <div class="chart-container">
+                <canvas id="defaultChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>Evolución de la Cartera (Millones €)</h3>
+            <div class="chart-container">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>Distribución por Nivel de Riesgo</h3>
+            <div class="chart-container">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div style="padding: 0 24px 24px;">
+        <div class="chart-card">
+            <h3>Detalle de Préstamos por Producto</h3>
+            <table class="loan-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Nº Préstamos</th>
+                        <th>Importe Total</th>
+                        <th>Saldo Pendiente</th>
+                        <th>TIN Medio</th>
+                        <th>Morosidad</th>
+                        <th>Riesgo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Hipoteca Fija</td>
+                        <td>12</td>
+                        <td>€2,850,000</td>
+                        <td>€2,456,000</td>
+                        <td>3.35%</td>
+                        <td>0.00%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot low"></span> Bajo</span></td>
+                    </tr>
+                    <tr>
+                        <td>Hipoteca Variable</td>
+                        <td>5</td>
+                        <td>€1,120,000</td>
+                        <td>€982,000</td>
+                        <td>2.58%</td>
+                        <td>0.00%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot low"></span> Bajo</span></td>
+                    </tr>
+                    <tr>
+                        <td>Hipoteca Mixta</td>
+                        <td>3</td>
+                        <td>€580,000</td>
+                        <td>€556,000</td>
+                        <td>2.97%</td>
+                        <td>0.00%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot low"></span> Bajo</span></td>
+                    </tr>
+                    <tr>
+                        <td>Préstamo Personal</td>
+                        <td>7</td>
+                        <td>€165,000</td>
+                        <td>€98,500</td>
+                        <td>7.61%</td>
+                        <td style="color: #e53e3e; font-weight: 600;">42.86%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot high"></span> Alto</span></td>
+                    </tr>
+                    <tr>
+                        <td>Préstamo Auto</td>
+                        <td>5</td>
+                        <td>€238,000</td>
+                        <td>€153,200</td>
+                        <td>5.41%</td>
+                        <td>0.00%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot low"></span> Bajo</span></td>
+                    </tr>
+                    <tr>
+                        <td>Préstamo Estudios</td>
+                        <td>3</td>
+                        <td>€30,000</td>
+                        <td>€6,800</td>
+                        <td>4.42%</td>
+                        <td>0.00%</td>
+                        <td><span class="risk-indicator"><span class="risk-dot low"></span> Bajo</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="dashboard-footer">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span>Datos actualizados: 2 Feb 2026 10:30</span>
+            <span>|</span>
+            <span>Powered by</span>
+            <span class="dbt-badge">dbt</span>
+            <span>Semantic Layer</span>
+        </div>
+        <div>
+            <span>Modelos: fct_loans, dim_customers, dim_products, int_loan_performance</span>
+        </div>
+    </footer>
+
+    <script>
+        // Distribución de cartera
+        const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+        new Chart(portfolioCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Hipoteca Fija', 'Hipoteca Variable', 'Hipoteca Mixta', 'Préstamo Personal', 'Préstamo Auto', 'Préstamo Estudios'],
+                datasets: [{
+                    data: [2850, 1120, 580, 165, 238, 30],
+                    backgroundColor: [
+                        '#1a365d',
+                        '#2d3748',
+                        '#4a5568',
+                        '#e53e3e',
+                        '#48bb78',
+                        '#f59e0b'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+
+        // Morosidad por producto
+        const defaultCtx = document.getElementById('defaultChart').getContext('2d');
+        new Chart(defaultCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Hipoteca Fija', 'Hipoteca Variable', 'Hipoteca Mixta', 'Prést. Personal', 'Prést. Auto', 'Prést. Estudios'],
+                datasets: [{
+                    label: 'Tasa de Morosidad (%)',
+                    data: [0, 0, 0, 42.86, 0, 0],
+                    backgroundColor: [
+                        '#48bb78',
+                        '#48bb78',
+                        '#48bb78',
+                        '#e53e3e',
+                        '#48bb78',
+                        '#48bb78'
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 50,
+                        title: {
+                            display: true,
+                            text: '% Morosidad'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Evolución de cartera
+        const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(evolutionCtx, {
+            type: 'line',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [
+                    {
+                        label: 'Cartera Total',
+                        data: [2.8, 3.2, 3.6, 4.0, 4.5, 4.82],
+                        borderColor: '#1a365d',
+                        backgroundColor: 'rgba(26, 54, 93, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Saldo Pendiente',
+                        data: [2.5, 2.9, 3.2, 3.5, 3.8, 3.95],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Millones €'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Distribución por riesgo
+        const riskCtx = document.getElementById('riskChart').getContext('2d');
+        new Chart(riskCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Riesgo Bajo', 'Riesgo Medio', 'Riesgo Alto'],
+                datasets: [{
+                    data: [25, 3, 7],
+                    backgroundColor: [
+                        '#48bb78',
+                        '#f59e0b',
+                        '#e53e3e'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

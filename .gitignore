@@ -1,0 +1,36 @@
+# dbt
+target/
+dbt_packages/
+dbt_modules/
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.env
+.venv
+env/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Configuración local
+demo/config.js
+profiles.yml
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log

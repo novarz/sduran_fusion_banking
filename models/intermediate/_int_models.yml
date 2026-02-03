@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: int_customer_segments
+    description: >
+      Análisis de segmentación de clientes basado en su comportamiento financiero,
+      incluyendo saldos totales, número de productos y actividad transaccional.
+    columns:
+      - name: customer_id
+        description: "Identificador único del cliente"
+        tests:
+          - unique
+          - not_null
+      - name: total_balance
+        description: "Saldo total en todas las cuentas del cliente"
+      - name: num_accounts
+        description: "Número de cuentas del cliente"
+      - name: num_products
+        description: "Número de productos contratados"
+      - name: segment_value
+        description: "Clasificación de valor del cliente (High, Medium, Low)"
+
+  - name: int_monthly_balances
+    description: >
+      Evolución mensual de saldos agregados por sucursal y tipo de producto.
+      Útil para análisis de tendencias y reporting financiero.
+    columns:
+      - name: month_date
+        description: "Mes de referencia"
+      - name: branch_id
+        description: "ID de la sucursal"
+      - name: product_type
+        description: "Tipo de producto"
+      - name: total_balance
+        description: "Saldo total agregado"
+      - name: num_accounts
+        description: "Número de cuentas"
+
+  - name: int_transaction_summary
+    description: >
+      Resumen de transacciones por cuenta y categoría.
+      Incluye totales de ingresos, gastos y número de operaciones.
+    columns:
+      - name: account_id
+        description: "ID de la cuenta"
+      - name: category
+        description: "Categoría de la transacción"
+      - name: total_credits
+        description: "Total de abonos"
+      - name: total_debits
+        description: "Total de cargos"
+      - name: num_transactions
+        description: "Número de transacciones"
+
+  - name: int_loan_performance
+    description: >
+      Análisis del rendimiento de la cartera de préstamos.
+      Incluye métricas de morosidad y rentabilidad por producto.
+    columns:
+      - name: product_id
+        description: "ID del producto de préstamo"
+      - name: total_loans
+        description: "Número total de préstamos"
+      - name: total_amount_lent
+        description: "Importe total prestado"
+      - name: total_outstanding
+        description: "Saldo pendiente total"
+      - name: default_rate
+        description: "Tasa de morosidad"
+      - name: interest_income
+        description: "Ingresos por intereses estimados"

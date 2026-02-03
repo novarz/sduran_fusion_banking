@@ -1,0 +1,121 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Clientes bancarios - datos limpios del sistema core"
+    columns:
+      - name: customer_id
+        description: "Identificador único del cliente"
+        tests:
+          - unique
+          - not_null
+      - name: dni
+        description: "DNI/NIE del cliente"
+        tests:
+          - unique
+      - name: email
+        description: "Correo electrónico del cliente"
+        tests:
+          - unique
+      - name: customer_segment
+        description: "Segmento del cliente"
+        tests:
+          - accepted_values:
+              values: ['Premium', 'Standard', 'Young', 'Senior']
+
+  - name: stg_branches
+    description: "Sucursales bancarias - datos limpios"
+    columns:
+      - name: branch_id
+        description: "Identificador único de la sucursal"
+        tests:
+          - unique
+          - not_null
+      - name: branch_code
+        description: "Código de oficina"
+        tests:
+          - unique
+      - name: branch_type
+        description: "Tipo de sucursal"
+        tests:
+          - accepted_values:
+              values: ['Principal', 'Urbana', 'Premium']
+
+  - name: stg_products
+    description: "Productos bancarios - datos limpios"
+    columns:
+      - name: product_id
+        description: "Identificador único del producto"
+        tests:
+          - unique
+          - not_null
+      - name: product_type
+        description: "Tipo de producto"
+        tests:
+          - accepted_values:
+              values: ['Account', 'Card', 'Loan', 'Deposit', 'Credit', 'Investment', 'Insurance']
+
+  - name: stg_accounts
+    description: "Cuentas bancarias - datos limpios"
+    columns:
+      - name: account_id
+        description: "Identificador único de la cuenta"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "ID del cliente titular"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: status
+        description: "Estado de la cuenta"
+        tests:
+          - accepted_values:
+              values: ['active', 'inactive', 'closed', 'blocked']
+
+  - name: stg_transactions
+    description: "Transacciones bancarias - datos limpios"
+    columns:
+      - name: transaction_id
+        description: "Identificador único de la transacción"
+        tests:
+          - unique
+          - not_null
+      - name: account_id
+        description: "ID de la cuenta"
+        tests:
+          - not_null
+      - name: transaction_type
+        description: "Tipo de transacción"
+        tests:
+          - accepted_values:
+              values: ['credit', 'debit']
+      - name: status
+        description: "Estado de la transacción"
+        tests:
+          - accepted_values:
+              values: ['completed', 'pending', 'reversed', 'failed']
+
+  - name: stg_loans
+    description: "Préstamos e hipotecas - datos limpios"
+    columns:
+      - name: loan_id
+        description: "Identificador único del préstamo"
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "ID del cliente"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: status
+        description: "Estado del préstamo"
+        tests:
+          - accepted_values:
+              values: ['active', 'completed', 'defaulted']

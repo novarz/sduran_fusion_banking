@@ -1,0 +1,130 @@
+version: 2
+
+sources:
+  - name: raw_data
+    description: "Datos crudos del sistema bancario core"
+    schema: raw_data
+    tables:
+      - name: raw_customers
+        description: "Información de clientes bancarios"
+        columns:
+          - name: id
+            description: "Identificador único del cliente"
+          - name: first_name
+            description: "Nombre del cliente"
+          - name: last_name
+            description: "Apellidos del cliente"
+          - name: dni
+            description: "DNI/NIE del cliente"
+          - name: email
+            description: "Correo electrónico"
+          - name: phone
+            description: "Teléfono de contacto"
+          - name: gender
+            description: "Género (M/F)"
+          - name: birth_date
+            description: "Fecha de nacimiento"
+          - name: city
+            description: "Ciudad de residencia"
+          - name: state
+            description: "Comunidad autónoma"
+          - name: country
+            description: "País"
+          - name: customer_since
+            description: "Fecha de alta como cliente"
+          - name: customer_segment
+            description: "Segmento del cliente (Premium, Standard, Young, Senior)"
+
+      - name: raw_branches
+        description: "Información de sucursales bancarias"
+        columns:
+          - name: id
+            description: "Identificador único de la sucursal"
+          - name: branch_name
+            description: "Nombre de la sucursal"
+          - name: branch_code
+            description: "Código de oficina"
+          - name: city
+            description: "Ciudad"
+          - name: state
+            description: "Comunidad autónoma"
+          - name: region
+            description: "Región geográfica"
+          - name: branch_type
+            description: "Tipo de sucursal (Principal, Urbana, Premium)"
+
+      - name: raw_products
+        description: "Catálogo de productos bancarios"
+        columns:
+          - name: id
+            description: "Identificador único del producto"
+          - name: product_name
+            description: "Nombre del producto"
+          - name: product_type
+            description: "Tipo de producto (Account, Card, Loan, etc.)"
+          - name: category
+            description: "Categoría del producto"
+          - name: interest_rate
+            description: "Tipo de interés"
+          - name: annual_fee
+            description: "Comisión anual"
+
+      - name: raw_accounts
+        description: "Cuentas de clientes"
+        columns:
+          - name: id
+            description: "Identificador único de la cuenta"
+          - name: customer_id
+            description: "ID del cliente titular"
+          - name: product_id
+            description: "ID del producto asociado"
+          - name: branch_id
+            description: "ID de la sucursal"
+          - name: account_number
+            description: "Número de cuenta"
+          - name: iban
+            description: "IBAN de la cuenta"
+          - name: status
+            description: "Estado de la cuenta"
+          - name: current_balance
+            description: "Saldo actual"
+
+      - name: raw_transactions
+        description: "Transacciones bancarias"
+        columns:
+          - name: id
+            description: "Identificador único de la transacción"
+          - name: account_id
+            description: "ID de la cuenta"
+          - name: transaction_date
+            description: "Fecha de la transacción"
+          - name: transaction_type
+            description: "Tipo (credit/debit)"
+          - name: category
+            description: "Categoría de la transacción"
+          - name: amount
+            description: "Importe"
+          - name: channel
+            description: "Canal (POS, ATM, Online, Transfer, Direct_Debit)"
+          - name: status
+            description: "Estado de la transacción"
+
+      - name: raw_loans
+        description: "Préstamos e hipotecas"
+        columns:
+          - name: id
+            description: "Identificador único del préstamo"
+          - name: customer_id
+            description: "ID del cliente"
+          - name: product_id
+            description: "ID del producto de préstamo"
+          - name: loan_amount
+            description: "Importe del préstamo"
+          - name: interest_rate
+            description: "Tipo de interés"
+          - name: term_months
+            description: "Plazo en meses"
+          - name: status
+            description: "Estado (active, completed, defaulted)"
+          - name: remaining_balance
+            description: "Saldo pendiente"

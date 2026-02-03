@@ -1,0 +1,26 @@
+id,branch_name,branch_code,city,state,country,region,address,opened_date,branch_type,num_employees,_etl_loaded_at
+1,Oficina Principal Madrid,0001,Madrid,Madrid,España,Centro,Gran Vía 32,2010-01-15,Principal,45,2024-01-15
+2,Barcelona Centro,0002,Barcelona,Cataluña,España,Noreste,Passeig de Gràcia 55,2010-03-20,Principal,38,2024-01-15
+3,Valencia Centro,0003,Valencia,Valencia,España,Este,Calle Colón 40,2010-06-10,Urbana,25,2024-01-15
+4,Sevilla Centro,0004,Sevilla,Andalucía,España,Sur,Avenida de la Constitución 21,2010-09-05,Urbana,22,2024-01-15
+5,Bilbao Gran Vía,0005,Bilbao,País Vasco,España,Norte,Gran Vía 45,2011-01-10,Urbana,20,2024-01-15
+6,Málaga Centro,0006,Málaga,Andalucía,España,Sur,Calle Larios 10,2011-04-15,Urbana,18,2024-01-15
+7,Zaragoza Centro,0007,Zaragoza,Aragón,España,Noreste,Paseo Independencia 28,2011-07-20,Urbana,16,2024-01-15
+8,Alicante Centro,0008,Alicante,Valencia,España,Este,Rambla Méndez Núñez 15,2011-10-25,Urbana,14,2024-01-15
+9,A Coruña Centro,0009,A Coruña,Galicia,España,Noroeste,Calle Real 50,2012-01-05,Urbana,12,2024-01-15
+10,San Sebastián Centro,0010,San Sebastián,País Vasco,España,Norte,Avenida Libertad 22,2012-04-10,Urbana,11,2024-01-15
+11,Palma de Mallorca,0011,Palma,Islas Baleares,España,Islas,Passeig des Born 18,2012-07-15,Urbana,10,2024-01-15
+12,Las Palmas Centro,0012,Las Palmas,Canarias,España,Islas,Calle Triana 75,2012-10-20,Urbana,10,2024-01-15
+13,Murcia Centro,0013,Murcia,Murcia,España,Sureste,Gran Vía Escultor Salzillo 9,2013-01-25,Urbana,9,2024-01-15
+14,Córdoba Centro,0014,Córdoba,Andalucía,España,Sur,Avenida Gran Capitán 14,2013-04-01,Urbana,8,2024-01-15
+15,Valladolid Centro,0015,Valladolid,Castilla y León,España,Centro,Calle Santiago 20,2013-07-05,Urbana,8,2024-01-15
+16,Vigo Centro,0016,Vigo,Galicia,España,Noroeste,Calle Príncipe 35,2013-10-10,Urbana,7,2024-01-15
+17,Gijón Centro,0017,Gijón,Asturias,España,Norte,Calle Corrida 45,2014-01-15,Urbana,6,2024-01-15
+18,Granada Centro,0018,Granada,Andalucía,España,Sur,Gran Vía de Colón 30,2014-04-20,Urbana,6,2024-01-15
+19,Santander Centro,0019,Santander,Cantabria,España,Norte,Paseo de Pereda 25,2014-07-25,Urbana,5,2024-01-15
+20,Oviedo Centro,0020,Oviedo,Asturias,España,Norte,Calle Uría 60,2014-10-01,Urbana,5,2024-01-15
+21,Madrid Chamberí,0021,Madrid,Madrid,España,Centro,Calle Fuencarral 100,2015-01-05,Urbana,15,2024-01-15
+22,Barcelona Eixample,0022,Barcelona,Cataluña,España,Noreste,Carrer d'Aragó 250,2015-04-10,Urbana,12,2024-01-15
+23,Madrid Salamanca,0023,Madrid,Madrid,España,Centro,Calle Serrano 80,2015-07-15,Premium,20,2024-01-15
+24,Barcelona Sarrià,0024,Barcelona,Cataluña,España,Noreste,Via Augusta 200,2015-10-20,Premium,15,2024-01-15
+25,Madrid Getafe,0025,Getafe,Madrid,España,Centro,Calle Madrid 45,2016-01-25,Urbana,8,2024-01-15
