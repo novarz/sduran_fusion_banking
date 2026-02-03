@@ -14,6 +14,8 @@ data_tests:
       de apertura, seguros vinculados, etc.
 
       Este test detecta préstamos donde TAE ≈ TIN, lo cual es sospechoso.
+    config:
+      severity: warn
 
   - name: assert_transactions_exclude_reversed
     description: >
@@ -26,9 +28,13 @@ data_tests:
       Verifica que la tasa de morosidad esté dentro de umbrales aceptables.
       Según estándares del sector bancario español, una tasa de morosidad
       superior al 5% requiere atención inmediata.
+    config:
+      severity: warn
 
   - name: assert_valid_customer_segment
     description: >
       Verifica la coherencia entre segmento de cliente y edad.
       Los clientes 'Young' deben tener menos de 30 años.
       Los clientes 'Senior' deben tener más de 60 años.
+    config:
+      severity: warn

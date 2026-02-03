@@ -21,7 +21,7 @@ models:
           - unique
       - name: customer_segment
         description: "Segmento del cliente (Premium, Standard, Young, Senior)"
-      - name: total_balance
+      - name: total_deposits
         description: "Saldo total en depósitos"
         tests:
           - not_null
@@ -44,7 +44,7 @@ models:
         description: "Tipo de producto"
       - name: num_accounts
         description: "Número de cuentas con este producto"
-      - name: total_balance
+      - name: total_deposits
         description: "Saldo total en cuentas de este producto"
 
   - name: dim_branches
@@ -91,7 +91,8 @@ models:
         description: "Estado de la transacción"
         tests:
           - accepted_values:
-              values: ['completed', 'pending', 'reversed', 'failed']
+              arguments:
+                values: ['completed', 'pending', 'reversed', 'failed']
       - name: commission_amount
         description: "Comisión aplicada a la transacción"
 
@@ -110,15 +111,17 @@ models:
         description: "ID del cliente"
         tests:
           - relationships:
-              to: ref('stg_customers')
-              field: customer_id
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
       - name: loan_amount
         description: "Importe del préstamo"
       - name: status
         description: "Estado del préstamo"
         tests:
           - accepted_values:
-              values: ['active', 'completed', 'defaulted']
+              arguments:
+                values: ['active', 'completed', 'defaulted']
       - name: remaining_balance
         description: "Saldo pendiente"
       - name: total_interest_paid

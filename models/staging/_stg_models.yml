@@ -21,7 +21,8 @@ models:
         description: "Segmento del cliente"
         tests:
           - accepted_values:
-              values: ['Premium', 'Standard', 'Young', 'Senior']
+              arguments:
+                values: ['Premium', 'Standard', 'Young', 'Senior']
 
   - name: stg_branches
     description: "Sucursales bancarias - datos limpios"
@@ -39,7 +40,8 @@ models:
         description: "Tipo de sucursal"
         tests:
           - accepted_values:
-              values: ['Principal', 'Urbana', 'Premium']
+              arguments:
+                values: ['Principal', 'Urbana', 'Premium']
 
   - name: stg_products
     description: "Productos bancarios - datos limpios"
@@ -53,7 +55,8 @@ models:
         description: "Tipo de producto"
         tests:
           - accepted_values:
-              values: ['Account', 'Card', 'Loan', 'Deposit', 'Credit', 'Investment', 'Insurance']
+              arguments:
+                values: ['Account', 'Card', 'Loan', 'Deposit', 'Credit', 'Investment', 'Insurance']
 
   - name: stg_accounts
     description: "Cuentas bancarias - datos limpios"
@@ -68,13 +71,15 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_customers')
-              field: customer_id
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
       - name: status
         description: "Estado de la cuenta"
         tests:
           - accepted_values:
-              values: ['active', 'inactive', 'closed', 'blocked']
+              arguments:
+                values: ['active', 'inactive', 'closed', 'blocked']
 
   - name: stg_transactions
     description: "Transacciones bancarias - datos limpios"
@@ -92,12 +97,14 @@ models:
         description: "Tipo de transacción"
         tests:
           - accepted_values:
-              values: ['credit', 'debit']
+              arguments:
+                values: ['credit', 'debit']
       - name: status
         description: "Estado de la transacción"
         tests:
           - accepted_values:
-              values: ['completed', 'pending', 'reversed', 'failed']
+              arguments:
+                values: ['completed', 'pending', 'reversed', 'failed']
 
   - name: stg_loans
     description: "Préstamos e hipotecas - datos limpios"
@@ -112,10 +119,12 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_customers')
-              field: customer_id
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
       - name: status
         description: "Estado del préstamo"
         tests:
           - accepted_values:
-              values: ['active', 'completed', 'defaulted']
+              arguments:
+                values: ['active', 'completed', 'defaulted']
