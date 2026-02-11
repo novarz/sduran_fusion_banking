@@ -202,38 +202,28 @@ models:
         description: "Transacciones completadas (excluye revertidas, pendientes y fallidas)"
         type: simple
         label: "Transacciones Completadas"
-        filter:
-          - "{{ Dimension('transaction__status') }} = 'completed'"
-          - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        filter: "{{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
         agg: count
         expr: transaction_id
       - name: credit_volume
         description: "Volumen de transacciones de crédito (abonos) completadas"
         type: simple
         label: "Volumen Créditos"
-        filter:
-          - "{{ Dimension('transaction__transaction_type') }} = 'credit'"
-          - "{{ Dimension('transaction__status') }} = 'completed'"
-          - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        filter: "{{ Dimension('transaction__transaction_type') }} = 'credit' AND {{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
         agg: sum
         expr: amount
       - name: debit_volume
         description: "Volumen de transacciones de débito (cargos) completadas"
         type: simple
         label: "Volumen Débitos"
-        filter:
-          - "{{ Dimension('transaction__transaction_type') }} = 'debit'"
-          - "{{ Dimension('transaction__status') }} = 'completed'"
-          - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        filter: "{{ Dimension('transaction__transaction_type') }} = 'debit' AND {{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
         agg: sum
         expr: amount
       - name: online_transactions
         description: "Número de transacciones completadas por canal online"
         type: simple
         label: "Transacciones Online"
-        filter:
-          - "{{ Dimension('transaction__channel') }} = 'Online'"
-          - "{{ Dimension('transaction__status') }} = 'completed'"
+        filter: "{{ Dimension('transaction__channel') }} = 'Online' AND {{ Dimension('transaction__status') }} = 'completed'"
         agg: count
         expr: transaction_id
       - name: net_transaction_flow
@@ -380,24 +370,21 @@ models:
         description: "Número de préstamos activos actualmente"
         type: simple
         label: "Préstamos Activos"
-        filter:
-          - "{{ Dimension('loan__status') }} = 'active'"
+        filter: "{{ Dimension('loan__status') }} = 'active'"
         agg: count
         expr: loan_id
       - name: defaulted_loans
         description: "Número de préstamos en situación de morosidad"
         type: simple
         label: "Préstamos Morosos"
-        filter:
-          - "{{ Dimension('loan__status') }} = 'defaulted'"
+        filter: "{{ Dimension('loan__status') }} = 'defaulted'"
         agg: count
         expr: loan_id
       - name: high_risk_loan_amount
         description: "Importe total de préstamos clasificados como alto riesgo"
         type: simple
         label: "Importe Préstamos Alto Riesgo"
-        filter:
-          - "{{ Dimension('loan__risk_level') }} = 'Alto'"
+        filter: "{{ Dimension('loan__risk_level') }} = 'Alto'"
         agg: sum
         expr: loan_amount
       - name: default_rate
