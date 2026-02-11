@@ -29,6 +29,7 @@ Thumbs.db
 # Configuración local
 demo/config.js
 profiles.yml
+.mcp.json
 
 # Archivos temporales
 *.tmp
