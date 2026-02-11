@@ -35,3 +35,4 @@ profiles.yml
 *.tmp
 *.temp
 *.log
+dbt_internal_packages/
