@@ -474,7 +474,6 @@ exposures:
       y cumplimiento normativo (Banco de España). Usado por el equipo de riesgos
       para supervisión de la cartera crediticia.
     depends_on:
-      - ref('fct_loans')
       - ref('rpt_loan_risk_summary')
       - ref('dim_customers')
       - ref('dim_products')
