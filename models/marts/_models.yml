@@ -418,6 +418,34 @@ models:
           - name: total_remaining_balance
           - name: total_loan_amount
 
+  - name: rpt_loan_risk_summary
+    description: >
+      Resumen de riesgo de cartera de préstamos agregado por producto y región.
+      Incluye métricas de TAE, morosidad y spread TAE-TIN para supervisión regulatoria.
+    columns:
+      - name: product_name
+        description: "Nombre del producto de préstamo"
+      - name: loan_category
+        description: "Categoría del préstamo"
+      - name: region
+        description: "Región de la sucursal"
+      - name: total_loans
+        description: "Número total de préstamos"
+      - name: total_loan_amount
+        description: "Importe total de préstamos concedidos"
+      - name: avg_tae
+        description: "TAE media de los préstamos"
+      - name: avg_interest_rate
+        description: "Tipo de interés medio (TIN)"
+      - name: tae_tin_spread
+        description: "Diferencia media entre TAE y TIN. Valores bajos indican posible omisión de comisiones."
+      - name: high_risk_loans
+        description: "Número de préstamos de alto riesgo"
+      - name: defaulted_loans
+        description: "Número de préstamos en mora"
+      - name: default_rate
+        description: "Tasa de morosidad en porcentaje"
+
 exposures:
   - name: customer_analytics_dashboard
     label: Panel de Análisis de Clientes
@@ -447,6 +475,7 @@ exposures:
       para supervisión de la cartera crediticia.
     depends_on:
       - ref('fct_loans')
+      - ref('rpt_loan_risk_summary')
       - ref('dim_customers')
       - ref('dim_products')
     owner:

@@ -15,7 +15,7 @@ with loans as (
         tae,
         -- La TAE debería ser mayor que el TIN por las comisiones
         tae - interest_rate as tae_tin_difference
-    from {{ ref('fct_loans') }}
+    from {{ ref('int_loan_enriched') }}
     where status = 'active'
       and loan_amount > 10000  -- Solo préstamos significativos
 ),

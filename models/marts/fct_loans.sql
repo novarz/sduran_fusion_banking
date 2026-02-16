@@ -1,13 +1,9 @@
-with loans as (
-    select * from {{ ref('stg_loans') }}
+with loan_enriched as (
+    select * from {{ ref('int_loan_enriched') }}
 ),
 
 customers as (
     select * from {{ ref('stg_customers') }}
-),
-
-products as (
-    select * from {{ ref('stg_products') }}
 ),
 
 branches as (
@@ -16,60 +12,37 @@ branches as (
 
 final as (
     select
-        l.loan_id,
-        l.customer_id,
-        l.product_id,
-        l.branch_id,
-        l.loan_amount,
-        l.interest_rate,
-        l.term_months,
-        l.monthly_payment,
-        l.start_date,
-        l.end_date,
-        l.status,
-        l.remaining_balance,
+        le.loan_id,
+        le.customer_id,
+        le.product_id,
+        le.branch_id,
+        le.loan_amount,
+        le.interest_rate,
+        le.term_months,
+        le.monthly_payment,
+        le.start_date,
+        le.end_date,
+        le.status,
+        le.remaining_balance,
         -- Información del cliente
         c.first_name || ' ' || c.last_name as customer_name,
         c.customer_segment,
-        -- Información del producto
-        p.product_name,
-        p.category as loan_category,
+        -- Información del producto (from int_loan_enriched)
+        le.product_name,
+        le.loan_category,
         -- Información de la sucursal
         b.branch_name,
         b.region,
-        -- Cálculos financieros
-        l.monthly_payment * l.term_months as total_to_pay,
-        (l.monthly_payment * l.term_months) - l.loan_amount as total_interest_paid,
-        -- TAE (Tasa Anual Equivalente) - cálculo simplificado
-        -- La TAE real incluiría comisiones de apertura, seguros, etc.
-        -- Este es un cálculo aproximado para demo
-        round(
-            (power(1 + (l.interest_rate / 100 / 12), 12) - 1) * 100,
-            2
-        ) as tae,
-        -- Ratio de amortización
-        case
-            when l.loan_amount > 0
-            then round((1 - (l.remaining_balance / l.loan_amount)) * 100, 2)
-            else 0
-        end as amortization_percentage,
-        -- Meses restantes estimados
-        case
-            when l.monthly_payment > 0
-            then ceil(l.remaining_balance / l.monthly_payment)
-            else 0
-        end as estimated_months_remaining,
-        -- Flag de riesgo
-        case
-            when l.status = 'defaulted' then 'Alto'
-            when l.remaining_balance > l.loan_amount * 0.9
-                 and date_part('year', current_date) - date_part('year', l.start_date) > 1 then 'Medio'
-            else 'Bajo'
-        end as risk_level
-    from loans l
-    join customers c on l.customer_id = c.customer_id
-    join products p on l.product_id = p.product_id
-    join branches b on l.branch_id = b.branch_id
+        -- Cálculos financieros (from int_loan_enriched)
+        le.total_to_pay,
+        le.total_interest_paid,
+        le.tae,
+        le.amortization_percentage,
+        le.estimated_months_remaining,
+        le.risk_level
+    from loan_enriched le
+    join customers c on le.customer_id = c.customer_id
+    join branches b on le.branch_id = b.branch_id
 )
 
 select * from final
