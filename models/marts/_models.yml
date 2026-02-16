@@ -31,7 +31,9 @@ models:
         tests:
           - not_null
       - name: customer_value
-        description: "Clasificación de valor (High, Medium, Low)"
+        description: >
+          Segmentación por valor basada en el saldo total de depósitos del cliente.
+          High: depósitos > 50.000 EUR; Medium: entre 10.000 y 50.000 EUR; Low: < 10.000 EUR.
         dimension:
           type: categorical
       - name: customer_since
@@ -144,7 +146,10 @@ models:
         dimension:
           type: categorical
       - name: commission_amount
-        description: "Comisión aplicada a la transacción"
+        description: >
+          Comisión aplicada a cada transacción según el canal utilizado.
+          Reglas: ATM = 0.50 EUR fijo; POS = 1.5% del importe; Transfer = 0.25% (mín. 0.10 EUR);
+          Online y Direct_Debit = sin comisión. Las comisiones incentivan el uso de canales digitales.
       - name: transaction_type
         dimension:
           type: categorical
@@ -287,9 +292,18 @@ models:
       - name: remaining_balance
         description: "Saldo pendiente"
       - name: total_interest_paid
-        description: "Intereses totales a pagar"
+        description: >
+          Importe total de intereses que el cliente pagará durante la vida del préstamo.
+          Fórmula: total_interest_paid = (monthly_payment * term_months) - loan_amount.
       - name: tae
-        description: "Tasa Anual Equivalente"
+        description: >
+          TAE (Tasa Anual Equivalente). Indicador del coste real del préstamo para el cliente.
+          Según la Circular 5/2012 del Banco de España, DEBE incluir todos los costes:
+          TIN + comisión de apertura + comisiones anuales (annual_fee) + seguros vinculados.
+          Fórmula correcta: ((1 + (TIN + comisiones_anualizadas) / 12) ^ 12 - 1) * 100,
+          donde comisiones_anualizadas = annual_fee / loan_amount.
+          Validación: la diferencia TAE - TIN debe ser >= 0.25 pp en préstamos con comisiones.
+          Una TAE igual al TIN indica que las comisiones NO están siendo incluidas en el cálculo.
       - name: start_date
         dimension:
           type: time
