@@ -10,7 +10,7 @@ renamed as (
         city,
         state,
         country,
-        region,
+        region as region,
         address,
         opened_date,
         branch_type,

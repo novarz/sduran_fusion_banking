@@ -72,6 +72,10 @@ models:
           donde comisiones_anualizadas = annual_fee / loan_amount.
           Validación: la diferencia TAE - TIN debe ser >= 0.25 pp en préstamos con comisiones.
           Una TAE igual al TIN indica que las comisiones NO están siendo incluidas en el cálculo.
+        tests:
+          - tae_excludes_commissions:
+              config:
+                severity: warn
       - name: annual_fee
         description: >
           Comisión anual del producto de préstamo. Disponible para incluir en el cálculo

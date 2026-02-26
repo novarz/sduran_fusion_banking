@@ -17,14 +17,12 @@ final as (
         c.phone,
         c.gender,
         c.birth_date,
-        -- Calcular edad
         date_part('year', current_date) - date_part('year', c.birth_date) as age,
         c.city,
         c.state,
         c.country,
         c.customer_since,
         c.customer_segment,
-        -- Métricas de segmentación
         cs.num_accounts,
         cs.num_products,
         cs.total_deposits,
@@ -37,7 +35,6 @@ final as (
         cs.total_outflows,
         cs.net_position,
         cs.segment_value as customer_value,
-        -- Antigüedad como cliente
         date_part('year', current_date) - date_part('year', c.customer_since) as years_as_customer
     from customers c
     left join customer_segments cs on c.customer_id = cs.customer_id

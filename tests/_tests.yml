@@ -6,17 +6,6 @@ data_tests:
       Verifica que las cuentas de ahorro y depósito tengan saldo positivo.
       Las cuentas de crédito (tarjetas) pueden tener saldo negativo.
 
-  - name: assert_tae_excludes_commissions
-    description: >
-      Verifica que el cálculo de TAE sea realista.
-      IMPORTANTE: La TAE debe incluir todas las comisiones según normativa del Banco de España.
-      Un TAE igual al tipo de interés nominal indica que no se están incluyendo las comisiones
-      de apertura, seguros vinculados, etc.
-
-      Este test detecta préstamos donde TAE ≈ TIN, lo cual es sospechoso.
-    config:
-      severity: warn
-
   - name: assert_transactions_exclude_reversed
     description: >
       Verifica que las métricas de rentabilidad excluyan transacciones revertidas.

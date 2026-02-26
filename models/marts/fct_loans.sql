@@ -24,16 +24,13 @@ final as (
         le.end_date,
         le.status,
         le.remaining_balance,
-        -- Información del cliente
         c.first_name || ' ' || c.last_name as customer_name,
         c.customer_segment,
-        -- Información del producto (from int_loan_enriched)
         le.product_name,
         le.loan_category,
-        -- Información de la sucursal
         b.branch_name,
         b.region,
-        -- Cálculos financieros (from int_loan_enriched)
+
         le.total_to_pay,
         le.total_interest_paid,
         le.tae,
