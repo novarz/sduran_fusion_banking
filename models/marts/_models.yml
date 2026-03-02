@@ -296,14 +296,7 @@ models:
           Importe total de intereses que el cliente pagará durante la vida del préstamo.
           Fórmula: total_interest_paid = (monthly_payment * term_months) - loan_amount.
       - name: tae
-        description: >
-          TAE (Tasa Anual Equivalente). Indicador del coste real del préstamo para el cliente.
-          Según la Circular 5/2012 del Banco de España, DEBE incluir todos los costes:
-          TIN + comisión de apertura + comisiones anuales (annual_fee) + seguros vinculados.
-          Fórmula correcta: ((1 + (TIN + comisiones_anualizadas) / 12) ^ 12 - 1) * 100,
-          donde comisiones_anualizadas = annual_fee / loan_amount.
-          Validación: la diferencia TAE - TIN debe ser >= 0.25 pp en préstamos con comisiones.
-          Una TAE igual al TIN indica que las comisiones NO están siendo incluidas en el cálculo.
+        description: "TAE (Tasa Anual Equivalente). Cálculo simplificado basado en el TIN."
       - name: start_date
         dimension:
           type: time

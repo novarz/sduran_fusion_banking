@@ -46,12 +46,14 @@ final as (
             then ceil(l.remaining_balance / l.monthly_payment)
             else 0
         end as estimated_months_remaining,
-        -- Flag de riesgo
+        -- Clasificación de riesgo según estado del préstamo
+        -- BUG: no gestiona el status 'completed' → cae al default 'Sin clasificar'
         case
             when l.status = 'defaulted' then 'Alto'
-            when l.remaining_balance > l.loan_amount * 0.9
+            when l.status = 'active' and l.remaining_balance > l.loan_amount * 0.9
                  and date_part('year', current_date) - date_part('year', l.start_date) > 1 then 'Medio'
-            else 'Bajo'
+            when l.status = 'active' then 'Bajo'
+            else 'Sin clasificar'
         end as risk_level
     from loans l
     join products p on l.product_id = p.product_id

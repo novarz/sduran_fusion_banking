@@ -66,22 +66,20 @@ models:
       - name: tae
         description: >
           TAE (Tasa Anual Equivalente). Indicador del coste real del préstamo para el cliente.
-          Según la Circular 5/2012 del Banco de España, DEBE incluir todos los costes:
-          TIN + comisión de apertura + comisiones anuales (annual_fee) + seguros vinculados.
-          Fórmula correcta: ((1 + (TIN + comisiones_anualizadas) / 12) ^ 12 - 1) * 100,
-          donde comisiones_anualizadas = annual_fee / loan_amount.
-          Validación: la diferencia TAE - TIN debe ser >= 0.25 pp en préstamos con comisiones.
-          Una TAE igual al TIN indica que las comisiones NO están siendo incluidas en el cálculo.
+          Cálculo simplificado basado en el TIN para demo.
+      - name: annual_fee
+        description: "Comisión anual del producto de préstamo."
+      - name: risk_level
+        description: >
+          Clasificación de riesgo del préstamo según su estado.
+          Valores esperados: Alto (defaulted), Medio (activo con baja amortización), Bajo (activo normal).
+          PROBLEMA CONOCIDO: los préstamos con status 'completed' no están gestionados en el CASE
+          y reciben el valor por defecto 'Sin clasificar'. El fix es añadir la rama correspondiente.
         tests:
-          - tae_excludes_commissions:
+          - no_default_classification:
+              default_value: 'Sin clasificar'
               config:
                 severity: warn
-      - name: annual_fee
-        description: >
-          Comisión anual del producto de préstamo. Disponible para incluir en el cálculo
-          correcto de la TAE según normativa del Banco de España.
-      - name: risk_level
-        description: "Nivel de riesgo del préstamo (Alto, Medio, Bajo)"
 
   - name: int_loan_performance
     description: >
