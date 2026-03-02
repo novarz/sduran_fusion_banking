@@ -57,7 +57,7 @@ models:
           type: categorical
     semantic_model:
       enabled: true
-      name: dim_customers
+      name: sm_customers
     agg_time_dimension: customer_since
     metrics:
       - name: total_customers
@@ -176,7 +176,7 @@ models:
           type: categorical
     semantic_model:
       enabled: true
-      name: fct_transactions
+      name: sm_transactions
     agg_time_dimension: transaction_date
     metrics:
       - name: total_transactions
@@ -328,7 +328,7 @@ models:
           type: categorical
     semantic_model:
       enabled: true
-      name: fct_loans
+      name: sm_loans
     agg_time_dimension: start_date
     metrics:
       - name: total_loans_count
