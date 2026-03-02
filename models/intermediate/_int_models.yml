@@ -77,7 +77,8 @@ models:
           y reciben el valor por defecto 'Sin clasificar'. El fix es añadir la rama correspondiente.
         tests:
           - no_default_classification:
-              default_value: 'Sin clasificar'
+              arguments:
+                default_value: 'Sin clasificar'
               config:
                 severity: warn
 
