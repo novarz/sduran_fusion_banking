@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: raw_data
     description: "Datos crudos del sistema bancario core"
-    schema: "{{ target.schema }}_raw_data"
+    schema: raw_data
     tables:
       - name: raw_customers
         description: "Información de clientes bancarios"
