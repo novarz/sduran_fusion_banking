@@ -559,14 +559,14 @@
             }
         });
 
-        // Distribución por riesgo
+        // Distribución por riesgo — datos reales de fct_loans (préstamos clasificados)
         const riskCtx = document.getElementById('riskChart').getContext('2d');
         new Chart(riskCtx, {
             type: 'pie',
             data: {
                 labels: ['Riesgo Bajo', 'Riesgo Medio', 'Riesgo Alto'],
                 datasets: [{
-                    data: [25, 3, 7],
+                    data: [16, 13, 3],
                     backgroundColor: [
                         '#48bb78',
                         '#f59e0b',
