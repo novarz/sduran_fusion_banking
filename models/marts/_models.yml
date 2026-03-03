@@ -4,12 +4,16 @@ models:
   - name: dim_customers
     description: >
       Dimensión de clientes bancarios. Una fila por cliente. Incluye información demográfica, métricas de valor y segmentación.
+       Modelo semántico de clientes bancarios. Cada fila representa un cliente con su información demográfica, segmentación y métricas de valor.
     columns:
       - name: customer_id
         description: "Identificador único del cliente"
         tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: customer
       - name: dni
         description: "DNI/NIE del cliente"
         tests:
@@ -20,6 +24,8 @@ models:
           - unique
       - name: customer_segment
         description: "Segmento del cliente (Premium, Standard, Young, Senior)"
+        dimension:
+          type: categorical
       - name: total_deposits
         description: "Saldo total en depósitos"
         tests:
@@ -28,18 +34,38 @@ models:
         description: >
           Segmentación por valor basada en el saldo total de depósitos del cliente.
           High: depósitos > 50.000 EUR; Medium: entre 10.000 y 50.000 EUR; Low: < 10.000 EUR.
+        dimension:
+          type: categorical
       - name: customer_since
-        description: "Fecha de alta del cliente"
+        dimension:
+          type: time
+        granularity: day
       - name: full_name
-        description: "Nombre completo del cliente"
+        dimension:
+          type: categorical
       - name: gender
-        description: "Género del cliente"
+        dimension:
+          type: categorical
       - name: city
-        description: "Ciudad"
+        dimension:
+          type: categorical
       - name: state
-        description: "Comunidad autónoma"
+        dimension:
+          type: categorical
       - name: country
-        description: "País"
+        dimension:
+          type: categorical
+    semantic_model:
+      enabled: true
+      name: dim_customers
+    agg_time_dimension: customer_since
+    metrics:
+      - name: total_customers
+        description: "Número total de clientes del banco"
+        type: simple
+        label: "Total Clientes"
+        agg: count
+        expr: customer_id
 
   - name: dim_products
     description: >
@@ -83,20 +109,32 @@ models:
 
   - name: fct_transactions
     description: >
-      Tabla de hechos de transacciones. Una fila por transacción. Incluye detalles de la operación y métricas financieras.
-      IMPORTANTE: Las transacciones revertidas (fraude) no deben incluirse en métricas de rentabilidad.
+      Tabla de hechos de transacciones. Una fila por transacción. Incluye detalles de la operación y métricas financieras. IMPORTANTE: Las transacciones revertidas (fraude) no deben incluirse en métricas de rentabilidad.
+       Modelo semántico de transacciones bancarias. Cada fila representa una transacción individual con detalles del importe, canal, tipo y estado.
     columns:
       - name: transaction_id
         description: "Identificador único de la transacción"
         tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: transaction
       - name: account_id
         description: "ID de la cuenta"
+        entity:
+          type: foreign
+          name: account
       - name: customer_id
         description: "ID del cliente"
+        entity:
+          type: foreign
+          name: customer
       - name: transaction_date
         description: "Fecha de la transacción"
+        dimension:
+          type: time
+        granularity: day
       - name: amount
         description: "Importe de la transacción"
       - name: status
@@ -105,43 +143,132 @@ models:
           - accepted_values:
               arguments:
                 values: ['completed', 'pending', 'reversed', 'failed']
+        dimension:
+          type: categorical
       - name: commission_amount
         description: >
           Comisión aplicada a cada transacción según el canal utilizado.
           Reglas: ATM = 0.50 EUR fijo; POS = 1.5% del importe; Transfer = 0.25% (mín. 0.10 EUR);
           Online y Direct_Debit = sin comisión. Las comisiones incentivan el uso de canales digitales.
       - name: transaction_type
-        description: "Tipo de transacción (credit/debit)"
+        dimension:
+          type: categorical
       - name: category
-        description: "Categoría de la transacción"
+        dimension:
+          type: categorical
       - name: channel
-        description: "Canal de la transacción"
+        dimension:
+          type: categorical
       - name: product_name
-        description: "Nombre del producto"
+        dimension:
+          type: categorical
       - name: product_type
-        description: "Tipo de producto"
+        dimension:
+          type: categorical
       - name: branch_name
-        description: "Nombre de la sucursal"
+        dimension:
+          type: categorical
       - name: region
-        description: "Región de la sucursal"
+        dimension:
+          type: categorical
       - name: is_excluded_from_metrics
-        description: "Flag para excluir de métricas de rentabilidad"
+        dimension:
+          type: categorical
+    semantic_model:
+      enabled: true
+      name: fct_transactions
+    agg_time_dimension: transaction_date
+    metrics:
+      - name: total_transactions
+        description: "Número total de transacciones realizadas"
+        type: simple
+        label: "Total Transacciones"
+        agg: count
+        expr: transaction_id
+      - name: transaction_volume
+        description: "Volumen total en euros de todas las transacciones"
+        type: simple
+        label: "Volumen de Transacciones"
+        agg: sum
+        expr: amount
+      - name: total_commissions
+        description: "Total de comisiones bancarias generadas"
+        type: simple
+        label: "Total Comisiones"
+        agg: sum
+        expr: commission_amount
+      - name: average_transaction_amount
+        description: "Importe medio por transacción"
+        type: simple
+        label: "Importe Medio Transacción"
+        agg: average
+        expr: amount
+      - name: completed_transactions
+        description: "Transacciones completadas (excluye revertidas, pendientes y fallidas)"
+        type: simple
+        label: "Transacciones Completadas"
+        filter: "{{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        agg: count
+        expr: transaction_id
+      - name: credit_volume
+        description: "Volumen de transacciones de crédito (abonos) completadas"
+        type: simple
+        label: "Volumen Créditos"
+        filter: "{{ Dimension('transaction__transaction_type') }} = 'credit' AND {{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        agg: sum
+        expr: amount
+      - name: debit_volume
+        description: "Volumen de transacciones de débito (cargos) completadas"
+        type: simple
+        label: "Volumen Débitos"
+        filter: "{{ Dimension('transaction__transaction_type') }} = 'debit' AND {{ Dimension('transaction__status') }} = 'completed' AND {{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+        agg: sum
+        expr: amount
+      - name: online_transactions
+        description: "Número de transacciones completadas por canal online"
+        type: simple
+        label: "Transacciones Online"
+        filter: "{{ Dimension('transaction__channel') }} = 'Online' AND {{ Dimension('transaction__status') }} = 'completed'"
+        agg: count
+        expr: transaction_id
+      - name: net_transaction_flow
+        description: "Flujo neto de transacciones: diferencia entre créditos y débitos"
+        type: derived
+        label: "Flujo Neto Transacciones"
+        expr: credit_volume - debit_volume
+        input_metrics:
+          - name: credit_volume
+          - name: debit_volume
+      - name: commission_rate
+        description: "Tasa de comisiones: ratio de comisiones sobre volumen total"
+        type: derived
+        label: "Tasa de Comisiones"
+        expr: total_commissions / nullif(transaction_volume, 0)
+        input_metrics:
+          - name: total_commissions
+          - name: transaction_volume
 
   - name: metricflow_time_spine
     description: "Time spine requerido por MetricFlow para el Semantic Layer. Una fila por día."
+    time_spine:
+      standard_granularity_column: date_day
     columns:
       - name: date_day
-        description: "Fecha"
+        granularity: day
 
   - name: fct_loans
     description: >
-      Tabla de hechos de préstamos. Una fila por préstamo. Incluye detalles del préstamo, amortización y métricas de riesgo.
+      Tabla de hechos de préstamos. Una fila por préstamo. Incluye detalles del préstamo, amortización y métricas de riesgo. IMPORTANTE: La TAE debe calcularse correctamente incluyendo comisiones.
+       Modelo semántico de préstamos bancarios. Cada fila representa un préstamo con detalles de amortización, riesgo y métricas financieras.
     columns:
       - name: loan_id
         description: "Identificador único del préstamo"
         tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: loan
       - name: customer_id
         description: "ID del cliente"
         tests:
@@ -149,6 +276,9 @@ models:
               arguments:
                 to: ref('stg_customers')
                 field: customer_id
+        entity:
+          type: foreign
+          name: customer
       - name: loan_amount
         description: "Importe del préstamo"
       - name: status
@@ -157,6 +287,8 @@ models:
           - accepted_values:
               arguments:
                 values: ['active', 'completed', 'defaulted']
+        dimension:
+          type: categorical
       - name: remaining_balance
         description: "Saldo pendiente"
       - name: total_interest_paid
@@ -166,23 +298,118 @@ models:
       - name: tae
         description: "TAE (Tasa Anual Equivalente). Cálculo simplificado basado en el TIN."
       - name: start_date
-        description: "Fecha de inicio del préstamo"
+        dimension:
+          type: time
+        granularity: day
       - name: end_date
-        description: "Fecha de vencimiento del préstamo"
+        dimension:
+          type: time
+        granularity: day
       - name: customer_name
-        description: "Nombre del cliente"
+        dimension:
+          type: categorical
       - name: customer_segment
-        description: "Segmento del cliente"
+        dimension:
+          type: categorical
       - name: product_name
-        description: "Nombre del producto"
+        dimension:
+          type: categorical
       - name: loan_category
-        description: "Categoría del préstamo"
+        dimension:
+          type: categorical
       - name: branch_name
-        description: "Nombre de la sucursal"
+        dimension:
+          type: categorical
       - name: region
-        description: "Región de la sucursal"
+        dimension:
+          type: categorical
       - name: risk_level
-        description: "Nivel de riesgo del préstamo"
+        dimension:
+          type: categorical
+    semantic_model:
+      enabled: true
+      name: fct_loans
+    agg_time_dimension: start_date
+    metrics:
+      - name: total_loans_count
+        description: "Número total de préstamos en cartera"
+        type: simple
+        label: "Total Préstamos"
+        agg: count
+        expr: loan_id
+      - name: total_loan_amount
+        description: "Importe total de préstamos concedidos"
+        type: simple
+        label: "Importe Total Préstamos"
+        agg: sum
+        expr: loan_amount
+      - name: average_loan_amount
+        description: "Importe medio por préstamo"
+        type: simple
+        label: "Importe Medio Préstamo"
+        agg: average
+        expr: loan_amount
+      - name: average_interest_rate
+        description: "Tipo de interés medio de los préstamos"
+        type: simple
+        label: "Tipo Interés Medio"
+        agg: average
+        expr: interest_rate
+      - name: average_tae
+        description: "Tasa Anual Equivalente media"
+        type: simple
+        label: "TAE Media"
+        agg: average
+        expr: tae
+      - name: total_remaining_balance
+        description: "Saldo pendiente total de todos los préstamos"
+        type: simple
+        label: "Saldo Pendiente Total"
+        agg: sum
+        expr: remaining_balance
+      - name: total_interest_paid
+        description: "Total de intereses pagados por los prestatarios"
+        type: simple
+        label: "Total Intereses Pagados"
+        agg: sum
+        expr: total_interest_paid
+      - name: active_loans
+        description: "Número de préstamos activos actualmente"
+        type: simple
+        label: "Préstamos Activos"
+        filter: "{{ Dimension('loan__status') }} = 'active'"
+        agg: count
+        expr: loan_id
+      - name: defaulted_loans
+        description: "Número de préstamos en situación de morosidad"
+        type: simple
+        label: "Préstamos Morosos"
+        filter: "{{ Dimension('loan__status') }} = 'defaulted'"
+        agg: count
+        expr: loan_id
+      - name: high_risk_loan_amount
+        description: "Importe total de préstamos clasificados como alto riesgo"
+        type: simple
+        label: "Importe Préstamos Alto Riesgo"
+        filter: "{{ Dimension('loan__risk_level') }} = 'Alto'"
+        agg: sum
+        expr: loan_amount
+      - name: default_rate
+        description: "Tasa de morosidad: porcentaje de préstamos en impago sobre el total"
+        type: derived
+        label: "Tasa de Morosidad"
+        expr: defaulted_loans / nullif(total_loans_count, 0)
+        input_metrics:
+          - name: defaulted_loans
+          - name: total_loans_count
+      - name: loan_amortization_ratio
+        description: "Ratio de amortización: proporción del préstamo ya amortizada"
+        type: derived
+        label: "Ratio de Amortización"
+        expr: 1 - (total_remaining_balance / nullif(total_loan_amount, 0))
+        input_metrics:
+          - name: total_remaining_balance
+          - name: total_loan_amount
 
   - name: rpt_loan_risk_summary
     description: >
