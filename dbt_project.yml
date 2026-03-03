@@ -2,7 +2,7 @@
 # Este proyecto simula un banco minorista con clientes, cuentas, transacciones y préstamos
 
 name: 'sduran_fusion_banking'
-version: '1.0.0'
+version: '1.0.1'
 config-version: 2
 
 # Configuración de dbt Cloud (actualizar con tu project-id)
