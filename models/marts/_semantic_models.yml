@@ -145,7 +145,7 @@ semantic_models:
 
 metrics:
   # -- Customer metrics --
-  - name: total_customers
+  - name: total_customer_count
     description: "Número total de clientes del banco"
     label: "Total Clientes"
     type: simple
