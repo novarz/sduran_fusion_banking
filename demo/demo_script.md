@@ -1,8 +1,8 @@
 # Demo Script: De la alerta en el dashboard al fix en el código
 
-**Duración estimada:** 10–15 minutos
+**Duración estimada:** 15–20 minutos
 **Audiencia:** Equipos técnicos y de negocio
-**Objetivo:** Mostrar cómo dbt Fusion conecta el dato de negocio con la calidad del dato — desde el dashboard hasta el código fuente.
+**Objetivo:** Mostrar cómo dbt Fusion conecta el dato de negocio con la calidad del dato — desde el dashboard hasta el código fuente. Y cómo un agente de IA resuelve en segundos lo que a un humano le llevaría 30 minutos.
 
 ---
 
@@ -19,7 +19,7 @@ El equipo de Riesgos revisa el Informe de Cartera de Préstamos. Todo parece en 
 Mostramos el dashboard de cartera de préstamos de Banco Fusión. El equipo de Riesgos lo usa para la revisión semanal de la cartera.
 
 Puntos a destacar:
-- KPIs en la cabecera: cartera total €4.82M, 28 préstamos activos, tasa de morosidad 8.57%
+- KPIs en la cabecera: cartera total €4.82M, 29 préstamos activos, tasa de morosidad 7.50%
 - Gráfico "Distribución por Nivel de Riesgo": 16 Bajo · 13 Medio · 3 Alto
 - Los datos parecen coherentes
 
@@ -94,7 +94,7 @@ case
 end as risk_level
 ```
 
-El CASE cubre `defaulted` y `active`, pero los préstamos con `status = 'completed'` caen en el `else`. Son **3 préstamos** que el modelo no clasifica.
+El CASE cubre `defaulted` y `active`, pero los préstamos con `status = 'completed'` caen en el `else`. Son **8 préstamos** que el modelo no clasifica — entre ellos, 5 hipotecas finalizadas (Fija, Variable y Mixta).
 
 ---
 
@@ -130,7 +130,7 @@ Resultado esperado:
 - `fct_loans` ✅ éxito
 - `no_default_classification_int_loan_enriched_risk_level` ✅ **0 rows** — warning desaparece
 
-El Health Tile vuelve a verde. El dashboard ahora refleja los 35 préstamos correctamente clasificados.
+El Health Tile vuelve a verde. El dashboard ahora refleja los 40 préstamos correctamente clasificados.
 
 ---
 
@@ -153,3 +153,54 @@ Dashboard (Health Tile ⚠)
 - **Para negocio:** "El dashboard os muestra el dato. El Health Tile os avisa cuando ese dato tiene un problema de calidad — sin esperar a que alguien lo detecte manualmente."
 - **Para técnicos:** "El catálogo documenta los campos calculados, sus reglas de negocio y los problemas conocidos. El linaje traza el origen en segundos. Los tests son la red de seguridad."
 - **Para todos:** "dbt no es solo transformación de datos — es el contrato entre el dato y el negocio."
+
+---
+
+## Bonus: Humano vs. Agente
+
+> *Este momento es el cierre de la demo. Se hace en vivo.*
+
+### ¿Cuánto tarda un humano en resolver este warning?
+
+| Paso | Herramienta | Tiempo estimado |
+|------|-------------|-----------------|
+| Ver el warning en dbt Cloud | dbt Cloud UI | 2 min |
+| Leer los logs del run y entender el test | dbt Cloud UI | 5 min |
+| Buscar el modelo en el catálogo | dbt Cloud Explore | 3 min |
+| Leer la descripción del campo y el linaje | dbt Cloud Explore | 5 min |
+| Encontrar el fichero SQL en el repositorio | IDE / GitHub | 3 min |
+| Leer el código, entender el CASE | IDE | 5 min |
+| Aplicar el fix y ejecutar el build | Terminal | 5 min |
+| Verificar que el warning desaparece | dbt Cloud UI | 2 min |
+| **Total** | | **~30 minutos** |
+
+Y esto asumiendo que el ingeniero conoce el proyecto. Si es alguien nuevo, multiplica por 3.
+
+---
+
+### ¿Cuánto tarda el agente?
+
+> *Pegar el siguiente prompt en Claude Code y arrancar el cronómetro.*
+
+```
+Hay un warning activo en el último run del job 521637 de dbt Cloud.
+Investiga qué está fallando: revisa los logs del run, consulta el catálogo
+para entender el campo afectado, traza el linaje hasta el modelo origen,
+localiza el bug en el código SQL y aplica el fix.
+Finalmente, ejecuta el build para confirmar que el warning desaparece.
+```
+
+El agente va a:
+1. Consultar los detalles del último run via MCP → identifica el test que falla
+2. Leer el catálogo y la descripción del campo `risk_level` → entiende el contexto
+3. Leer `int_loan_enriched.sql` → localiza el CASE incompleto
+4. Editar el fichero → añade `when l.status = 'completed' then 'Bajo'`
+5. Ejecutar `dbt build --select int_loan_enriched+` → 0 warnings
+
+**Tiempo real:** 1–2 minutos.
+
+---
+
+### El mensaje
+
+> *"El agente no es más listo que el ingeniero. Tiene el mismo contexto: el catálogo, el linaje, el código. La diferencia es que lo recorre todo en paralelo, sin cambiar de pestaña, sin perder el hilo. El ingeniero puede dedicar ese tiempo a decidir qué hacer — no a encontrar dónde está el problema."*
