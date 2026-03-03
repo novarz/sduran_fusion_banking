@@ -49,7 +49,7 @@ id,first_name,last_name,dni,email,phone,gender,birth_date,city,state,country,cus
 48,Claudia,Campos,88990013B,claudia.campos@email.com,+34612345048,F,1988-05-21,Ourense,Galicia,España,2018-12-10,Standard,2024-01-15
 49,Alejandro,Vega,99001124C,alejandro.vega@email.com,+34612345049,M,1972-12-04,Lugo,Galicia,España,2019-01-15,Premium,2024-01-15
 50,Natalia,Reyes,00112235D,natalia.reyes@email.com,+34612345050,F,1998-07-17,Zamora,Castilla y León,España,2019-02-20,Young,2024-01-15
-51,Manuel,León,11223346E,manuel.leon@email.com,+34612345051,M,1967-02-01,Palencia,Castilla y León,España,2019-03-25,Senior,2024-01-15
+51,Manuel,León,11223346E,manuel.leon@email.com,+34612345051,M,1963-02-01,Palencia,Castilla y León,España,2019-03-25,Senior,2024-01-15
 52,Sara,Peña,22334457F,sara.pena@email.com,+34612345052,F,1982-09-14,Mérida,Extremadura,España,2019-04-01,Standard,2024-01-15
 53,Roberto,Herrero,33445568G,roberto.herrero@email.com,+34612345053,M,1974-04-27,Plasencia,Extremadura,España,2019-05-05,Premium,2024-01-15
 54,Clara,Nieto,44556679H,clara.nieto@email.com,+34612345054,F,2001-11-10,Jerez,Andalucía,España,2019-06-10,Young,2024-01-15
@@ -89,7 +89,7 @@ id,first_name,last_name,dni,email,phone,gender,birth_date,city,state,country,cus
 88,Yolanda,Marcos,88990014V,yolanda.marcos@email.com,+34612345088,F,1982-07-05,Vielha,Cataluña,España,2022-04-01,Standard,2024-01-15
 89,Samuel,Guerrero,99001125W,samuel.guerrero@email.com,+34612345089,M,1974-01-18,Tremp,Cataluña,España,2022-05-05,Premium,2024-01-15
 90,Amparo,Núñez,00112236X,amparo.nunez@email.com,+34612345090,F,2004-08-31,Balaguer,Cataluña,España,2022-06-10,Young,2024-01-15
-91,Héctor,Santana,11223347Y,hector.santana@email.com,+34612345091,M,1967-03-16,Tàrrega,Cataluña,España,2022-07-15,Senior,2024-01-15
+91,Héctor,Santana,11223347Y,hector.santana@email.com,+34612345091,M,1963-03-16,Tàrrega,Cataluña,España,2022-07-15,Senior,2024-01-15
 92,Remedios,Crespo,22334458Z,remedios.crespo@email.com,+34612345092,F,1985-10-29,Cervera,Cataluña,España,2022-08-20,Standard,2024-01-15
 93,Borja,Carmona,33445570A,borja.carmona@email.com,+34612345093,M,1979-05-12,Solsona,Cataluña,España,2022-09-25,Premium,2024-01-15
 94,Marisol,Cabello,44556681B,marisol.cabello@email.com,+34612345094,F,1999-12-25,Berga,Cataluña,España,2022-10-01,Young,2024-01-15
