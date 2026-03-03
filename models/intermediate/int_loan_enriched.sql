@@ -52,7 +52,6 @@ final as (
             when l.status = 'active' and l.remaining_balance > l.loan_amount * 0.9
                  and date_part('year', current_date) - date_part('year', l.start_date) > 1 then 'Medio'
             when l.status = 'active' then 'Bajo'
-            when l.status = 'completed' then 'Nulo'
             else 'Sin clasificar'
         end as risk_level
     from loans l

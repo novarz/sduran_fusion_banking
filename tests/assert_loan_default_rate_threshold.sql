@@ -17,7 +17,7 @@ high_default_products as (
         defaulted_amount
     from loan_performance
     where default_rate > 5.0  -- Umbral del 5%
-      and total_loans >= 5    -- Mínimo de préstamos para ser significativo
+      and total_loans >= 15   -- Mínimo de préstamos para ser estadísticamente significativo
 )
 
 -- Si devuelve filas, hay productos con morosidad preocupante
