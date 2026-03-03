@@ -1,0 +1,341 @@
+version: 2
+
+semantic_models:
+  - name: sm_customers
+    model: ref('dim_customers')
+    defaults:
+      agg_time_dimension: customer_since
+    entities:
+      - name: customer
+        type: primary
+        expr: customer_id
+    dimensions:
+      - name: customer_segment
+        type: categorical
+      - name: customer_value
+        type: categorical
+      - name: customer_since
+        type: time
+        type_params:
+          time_granularity: day
+      - name: full_name
+        type: categorical
+      - name: gender
+        type: categorical
+      - name: city
+        type: categorical
+      - name: state
+        type: categorical
+      - name: country
+        type: categorical
+    measures:
+      - name: customer_count
+        agg: count
+        expr: customer_id
+
+  - name: sm_transactions
+    model: ref('fct_transactions')
+    defaults:
+      agg_time_dimension: transaction_date
+    entities:
+      - name: transaction
+        type: primary
+        expr: transaction_id
+      - name: account
+        type: foreign
+        expr: account_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+    dimensions:
+      - name: transaction_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: status
+        type: categorical
+      - name: transaction_type
+        type: categorical
+      - name: category
+        type: categorical
+      - name: channel
+        type: categorical
+      - name: product_name
+        type: categorical
+      - name: product_type
+        type: categorical
+      - name: branch_name
+        type: categorical
+      - name: region
+        type: categorical
+      - name: is_excluded_from_metrics
+        type: categorical
+    measures:
+      - name: transaction_count
+        agg: count
+        expr: transaction_id
+      - name: transaction_amount_sum
+        agg: sum
+        expr: amount
+      - name: transaction_amount_avg
+        agg: average
+        expr: amount
+      - name: commission_sum
+        agg: sum
+        expr: commission_amount
+
+  - name: sm_loans
+    model: ref('fct_loans')
+    defaults:
+      agg_time_dimension: start_date
+    entities:
+      - name: loan
+        type: primary
+        expr: loan_id
+      - name: customer
+        type: foreign
+        expr: customer_id
+    dimensions:
+      - name: start_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: end_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: status
+        type: categorical
+      - name: customer_name
+        type: categorical
+      - name: customer_segment
+        type: categorical
+      - name: product_name
+        type: categorical
+      - name: loan_category
+        type: categorical
+      - name: branch_name
+        type: categorical
+      - name: region
+        type: categorical
+      - name: risk_level
+        type: categorical
+    measures:
+      - name: loan_count
+        agg: count
+        expr: loan_id
+      - name: loan_amount_sum
+        agg: sum
+        expr: loan_amount
+      - name: loan_amount_avg
+        agg: average
+        expr: loan_amount
+      - name: interest_rate_avg
+        agg: average
+        expr: interest_rate
+      - name: tae_avg
+        agg: average
+        expr: tae
+      - name: remaining_balance_sum
+        agg: sum
+        expr: remaining_balance
+      - name: interest_paid_sum
+        agg: sum
+        expr: total_interest_paid
+
+metrics:
+  # -- Customer metrics --
+  - name: total_customers
+    description: "Número total de clientes del banco"
+    label: "Total Clientes"
+    type: simple
+    type_params:
+      measure: customer_count
+
+  # -- Transaction metrics --
+  - name: total_transactions
+    description: "Número total de transacciones realizadas"
+    label: "Total Transacciones"
+    type: simple
+    type_params:
+      measure: transaction_count
+
+  - name: transaction_volume
+    description: "Volumen total en euros de todas las transacciones"
+    label: "Volumen de Transacciones"
+    type: simple
+    type_params:
+      measure: transaction_amount_sum
+
+  - name: total_commissions
+    description: "Total de comisiones bancarias generadas"
+    label: "Total Comisiones"
+    type: simple
+    type_params:
+      measure: commission_sum
+
+  - name: average_transaction_amount
+    description: "Importe medio por transacción"
+    label: "Importe Medio Transacción"
+    type: simple
+    type_params:
+      measure: transaction_amount_avg
+
+  - name: completed_transactions
+    description: "Transacciones completadas (excluye revertidas, pendientes y fallidas)"
+    label: "Transacciones Completadas"
+    type: simple
+    type_params:
+      measure: transaction_count
+    filter:
+      - "{{ Dimension('transaction__status') }} = 'completed'"
+      - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+
+  - name: credit_volume
+    description: "Volumen de transacciones de crédito (abonos) completadas"
+    label: "Volumen Créditos"
+    type: simple
+    type_params:
+      measure: transaction_amount_sum
+    filter:
+      - "{{ Dimension('transaction__transaction_type') }} = 'credit'"
+      - "{{ Dimension('transaction__status') }} = 'completed'"
+      - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+
+  - name: debit_volume
+    description: "Volumen de transacciones de débito (cargos) completadas"
+    label: "Volumen Débitos"
+    type: simple
+    type_params:
+      measure: transaction_amount_sum
+    filter:
+      - "{{ Dimension('transaction__transaction_type') }} = 'debit'"
+      - "{{ Dimension('transaction__status') }} = 'completed'"
+      - "{{ Dimension('transaction__is_excluded_from_metrics') }} = false"
+
+  - name: online_transactions
+    description: "Número de transacciones completadas por canal online"
+    label: "Transacciones Online"
+    type: simple
+    type_params:
+      measure: transaction_count
+    filter:
+      - "{{ Dimension('transaction__channel') }} = 'Online'"
+      - "{{ Dimension('transaction__status') }} = 'completed'"
+
+  - name: net_transaction_flow
+    description: "Flujo neto de transacciones: diferencia entre créditos y débitos"
+    label: "Flujo Neto Transacciones"
+    type: derived
+    type_params:
+      expr: credit_volume - debit_volume
+      metrics:
+        - name: credit_volume
+        - name: debit_volume
+
+  - name: commission_rate
+    description: "Tasa de comisiones: ratio de comisiones sobre volumen total"
+    label: "Tasa de Comisiones"
+    type: derived
+    type_params:
+      expr: total_commissions / nullif(transaction_volume, 0)
+      metrics:
+        - name: total_commissions
+        - name: transaction_volume
+
+  # -- Loan metrics --
+  - name: total_loans_count
+    description: "Número total de préstamos en cartera"
+    label: "Total Préstamos"
+    type: simple
+    type_params:
+      measure: loan_count
+
+  - name: total_loan_amount
+    description: "Importe total de préstamos concedidos"
+    label: "Importe Total Préstamos"
+    type: simple
+    type_params:
+      measure: loan_amount_sum
+
+  - name: average_loan_amount
+    description: "Importe medio por préstamo"
+    label: "Importe Medio Préstamo"
+    type: simple
+    type_params:
+      measure: loan_amount_avg
+
+  - name: average_interest_rate
+    description: "Tipo de interés medio de los préstamos"
+    label: "Tipo Interés Medio"
+    type: simple
+    type_params:
+      measure: interest_rate_avg
+
+  - name: average_tae
+    description: "Tasa Anual Equivalente media"
+    label: "TAE Media"
+    type: simple
+    type_params:
+      measure: tae_avg
+
+  - name: total_remaining_balance
+    description: "Saldo pendiente total de todos los préstamos"
+    label: "Saldo Pendiente Total"
+    type: simple
+    type_params:
+      measure: remaining_balance_sum
+
+  - name: total_interest_paid
+    description: "Total de intereses pagados por los prestatarios"
+    label: "Total Intereses Pagados"
+    type: simple
+    type_params:
+      measure: interest_paid_sum
+
+  - name: active_loans
+    description: "Número de préstamos activos actualmente"
+    label: "Préstamos Activos"
+    type: simple
+    type_params:
+      measure: loan_count
+    filter:
+      - "{{ Dimension('loan__status') }} = 'active'"
+
+  - name: defaulted_loans
+    description: "Número de préstamos en situación de morosidad"
+    label: "Préstamos Morosos"
+    type: simple
+    type_params:
+      measure: loan_count
+    filter:
+      - "{{ Dimension('loan__status') }} = 'defaulted'"
+
+  - name: high_risk_loan_amount
+    description: "Importe total de préstamos clasificados como alto riesgo"
+    label: "Importe Préstamos Alto Riesgo"
+    type: simple
+    type_params:
+      measure: loan_amount_sum
+    filter:
+      - "{{ Dimension('loan__risk_level') }} = 'Alto'"
+
+  - name: default_rate
+    description: "Tasa de morosidad: porcentaje de préstamos en impago sobre el total"
+    label: "Tasa de Morosidad"
+    type: derived
+    type_params:
+      expr: defaulted_loans / nullif(total_loans_count, 0)
+      metrics:
+        - name: defaulted_loans
+        - name: total_loans_count
+
+  - name: loan_amortization_ratio
+    description: "Ratio de amortización: proporción del préstamo ya amortizada"
+    label: "Ratio de Amortización"
+    type: derived
+    type_params:
+      expr: 1 - (total_remaining_balance / nullif(total_loan_amount, 0))
+      metrics:
+        - name: total_remaining_balance
+        - name: total_loan_amount
