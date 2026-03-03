@@ -72,9 +72,7 @@ models:
       - name: risk_level
         description: >
           Clasificación de riesgo del préstamo según su estado.
-          Valores esperados: Alto (defaulted), Medio (activo con baja amortización), Bajo (activo normal).
-          PROBLEMA CONOCIDO: los préstamos con status 'completed' no están gestionados en el CASE
-          y reciben el valor por defecto 'Sin clasificar'. El fix es añadir la rama correspondiente.
+          Valores: Alto (defaulted), Medio (activo con baja amortización), Bajo (activo normal), Nulo (completed).
         tests:
           - no_default_classification:
               arguments:
