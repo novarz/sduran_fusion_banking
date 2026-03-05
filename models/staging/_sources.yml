@@ -4,6 +4,10 @@ sources:
   - name: raw_data
     description: "Datos crudos del sistema bancario core"
     schema: raw_data
+    loaded_at_field: "METADATA$LAST_ROW_COMMIT_TIME"
+    freshness:
+      warn_after: {count: 7, period: day}
+      error_after: {count: 14, period: day}
     tables:
       - name: raw_customers
         description: "Información de clientes bancarios"
