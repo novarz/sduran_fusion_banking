@@ -77,6 +77,10 @@ models:
           - no_default_classification:
               arguments:
                 default_value: 'Sin clasificar'
+              description: >
+                Verifica que risk_level no contenga el valor por defecto 'Sin clasificar'.
+                Un préstamo sin clasificar indica que la lógica de negocio no ha asignado
+                un nivel de riesgo válido (Alto, Medio, Bajo o Nulo).
               config:
                 severity: warn
 
