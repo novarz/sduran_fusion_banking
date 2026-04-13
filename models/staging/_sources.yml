@@ -4,7 +4,8 @@ sources:
   - name: raw_data
     description: "Datos crudos del sistema bancario core"
     schema: raw_data
-    freshness: null
+    config:
+      freshness: null
     tables:
       - name: raw_customers
         description: "Información de clientes bancarios"
