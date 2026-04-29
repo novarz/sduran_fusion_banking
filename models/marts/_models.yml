@@ -186,6 +186,10 @@ models:
         description: "Región de la sucursal"
       - name: risk_level
         description: "Nivel de riesgo del préstamo"
+      - name: is_high_concentration
+        description: >
+          Flag de concentración regional alta. True si la región del préstamo supera
+          el 20% del importe total del portfolio. Umbral definido por el equipo de riesgos.
 
   - name: rpt_loan_risk_summary
     description: >
@@ -214,6 +218,14 @@ models:
         description: "Número de préstamos en mora"
       - name: default_rate
         description: "Tasa de morosidad en porcentaje"
+      - name: regional_loan_share_pct
+        description: >
+          Porcentaje del portfolio total de préstamos que representa la región de esta fila.
+          Calculado como suma regional / suma global. Mismo valor para todas las filas de una región.
+      - name: is_high_concentration
+        description: >
+          Flag de concentración regional alta. True si la región supera el 20% del importe
+          total del portfolio. Umbral definido por el equipo de riesgos.
 
 exposures:
   - name: customer_analytics_dashboard

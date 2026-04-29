@@ -120,6 +120,9 @@ semantic_models:
         type: categorical
       - name: risk_level
         type: categorical
+      - name: is_high_concentration
+        type: categorical
+        label: "Concentración Regional Alta"
     measures:
       - name: loan_count
         agg: count

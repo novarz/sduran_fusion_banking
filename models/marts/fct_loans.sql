@@ -36,7 +36,11 @@ final as (
         le.tae,
         le.amortization_percentage,
         le.estimated_months_remaining,
-        le.risk_level
+        le.risk_level,
+        -- Flag de concentración alta: true si la región supera el 20% del portfolio total
+        sum(le.loan_amount) over (partition by b.region)
+            / nullif(sum(le.loan_amount) over (), 0) > 0.20
+            as is_high_concentration
     from loan_enriched le
     join customers c on le.customer_id = c.customer_id
     join branches b on le.branch_id = b.branch_id

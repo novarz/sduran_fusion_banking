@@ -2,7 +2,7 @@ with loans as (
     select * from {{ ref('fct_loans') }}
 ),
 
-final as (
+aggregated as (
     select
         product_name,
         loan_category,
@@ -21,6 +21,22 @@ final as (
         ) as default_rate
     from loans
     group by product_name, loan_category, region
+),
+
+final as (
+    select
+        *,
+        -- Concentración regional: % del portfolio total que representa esta región
+        round(
+            sum(total_loan_amount) over (partition by region)
+            / nullif(sum(total_loan_amount) over (), 0) * 100,
+            2
+        ) as regional_loan_share_pct,
+        -- Flag de concentración alta: regiones que superan el 20% del portfolio
+        sum(total_loan_amount) over (partition by region)
+            / nullif(sum(total_loan_amount) over (), 0) > 0.20
+            as is_high_concentration
+    from aggregated
 )
 
 select * from final
