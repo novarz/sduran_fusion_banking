@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "dbt": {
+      "command": "/opt/homebrew/bin/uvx",
+      "args": ["dbt-mcp"],
+      "env": {
+        "DBT_PROJECT_DIR": "/Users/sergio.vegas/Projects/sduran_fusion_banking",
+        "DBT_PATH": "/Users/sergio.vegas/Projects/sduran_fusion_banking/.venv/bin/dbt",
+        "DISABLE_SEMANTIC_LAYER": "true",
+        "DISABLE_DISCOVERY": "true",
+        "DISABLE_ADMIN_API": "true"
+      }
+    }
+  }
+}
