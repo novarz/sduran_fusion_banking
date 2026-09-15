@@ -1,0 +1,16 @@
+# Copy to ~/.dbt/profiles.yml (never commit a real copy).
+# Profile name must match dbt_project.yml: analytics
+
+analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: YOUR_ACCOUNT
+      user: YOUR_USER
+      password: YOUR_PASSWORD
+      role: YOUR_ROLE
+      database: FUSION_BANKING
+      warehouse: DBT_WH
+      schema: ANALYTICS_YOURNAME
+      threads: 4

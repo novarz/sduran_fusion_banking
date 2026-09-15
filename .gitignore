@@ -30,6 +30,7 @@ Thumbs.db
 demo/config.js
 profiles.yml
 .mcp.json
+.cursor/mcp.json
 
 # Archivos temporales
 *.tmp

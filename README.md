@@ -1,148 +1,77 @@
-# Banco Fusión - Proyecto dbt de Banca Retail
+# Banco Fusión — retail banking dbt demo
 
-Proyecto de demostración de dbt para un banco minorista ficticio en España. Incluye modelos de datos, tests, exposures y dashboards de ejemplo.
+Fictional Spanish retail bank warehouse for **Cursor Field / TAM** demos. Models, tests, exposures, and a Semantic Layer on Snowflake.
 
-## 🏦 Descripción
+**Presenter guide (English):** **[demo/FIELD.md](demo/FIELD.md)** — setup plus Architect / Engineer / DevOps prompts. Do **not** fix the `risk_level` warning or TAE before the meeting.
 
-Este proyecto simula el data warehouse de un banco retail con:
-- **100 clientes** distribuidos por toda España
-- **25 sucursales** bancarias
-- **30 productos** bancarios (cuentas, tarjetas, préstamos, inversiones)
-- **110 cuentas** activas
-- **268 transacciones** de ejemplo
-- **35 préstamos** (hipotecas, personales, auto, estudios)
+**Lifecycle / deck:** [demo/ADLC.md](demo/ADLC.md) · [demo/DECK_PROMPT.md](demo/DECK_PROMPT.md)
 
-## 📁 Estructura del Proyecto
+## What’s in the warehouse
+
+- **100** customers across Spain
+- **25** branches
+- **30** products (accounts, cards, loans, investments)
+- **110** accounts
+- **268** sample transactions
+- **40** loans (mortgage, personal, auto, student)
+
+Layers: seeds (`raw_*`) → staging (`stg_*`) → intermediate (`int_*`) → marts (`dim_*`, `fct_*`, `rpt_*`) → exposures.
+
+## Project layout
 
 ```
-sduran_fusion_banking/
+fusion-banking-dbt-demo/
 ├── models/
-│   ├── staging/          # Capa de staging - limpieza de datos
-│   │   ├── stg_customers.sql
-│   │   ├── stg_accounts.sql
-│   │   ├── stg_transactions.sql
-│   │   ├── stg_loans.sql
-│   │   ├── stg_branches.sql
-│   │   └── stg_products.sql
-│   ├── intermediate/     # Capa intermedia - lógica de negocio
-│   │   ├── int_customer_segments.sql
-│   │   ├── int_monthly_balances.sql
-│   │   ├── int_transaction_summary.sql
-│   │   └── int_loan_performance.sql
-│   └── marts/            # Capa de marts - modelos finales
-│       ├── dim_customers.sql
-│       ├── dim_products.sql
-│       ├── dim_branches.sql
-│       ├── fct_transactions.sql
-│       └── fct_loans.sql
-├── seeds/                # Datos de ejemplo
-│   ├── raw_customers.csv
-│   ├── raw_accounts.csv
-│   ├── raw_transactions.csv
-│   ├── raw_loans.csv
-│   ├── raw_branches.csv
-│   └── raw_products.csv
-├── tests/                # Tests de calidad de datos
-│   ├── assert_positive_account_balance.sql
-│   ├── assert_tae_excludes_commissions.sql
-│   ├── assert_transactions_exclude_reversed.sql
-│   ├── assert_loan_default_rate_threshold.sql
-│   └── assert_valid_customer_segment.sql
-├── demo/                 # Dashboards de demostración
-│   ├── customer_analytics_dashboard.html
-│   ├── loan_portfolio_dashboard.html
-│   └── config.example.js
+│   ├── staging/          # cleaned sources
+│   ├── intermediate/     # business logic (TAE and risk_level live here)
+│   └── marts/            # dims, facts, risk summary, semantic models
+├── seeds/                # CSV sources
+├── tests/                # singular data-quality tests
+├── demo/
+│   ├── FIELD.md          # Field/TAM script and copy-paste prompts
+│   └── *.html            # static dashboard mockups
+├── profiles.example.yml
 └── dbt_project.yml
 ```
 
-## 🎯 Casos de Uso de Demo
+## Demo storylines
 
-### 1. Segmentación de Clientes
-- Análisis de valor de cliente (CLV)
-- Distribución geográfica
-- Métricas por segmento (Premium, Standard, Young, Senior)
+1. **Customer segmentation** — CLV-style value, geography, Premium / Standard / Young / Senior
+2. **Loan book** — default rates, Bank of Spain-style thresholds, TAE vs TIN
+3. **Branch performance** — deposits, customers, transactions per branch
 
-### 2. Cartera de Préstamos
-- Análisis de morosidad por producto
-- Cumplimiento normativo (Banco de España)
-- Gestión de riesgo crediticio
+The live quality beat is a **warn** on `int_loan_enriched.risk_level` (`Sin clasificar` for completed loans). The TAE formula is TIN-only until Prompt 5.
 
-### 3. Rendimiento de Sucursales
-- KPIs por oficina
-- Depósitos por empleado
-- Captación de clientes
+## Quick start
 
-## ⚠️ Test de Demo: Warning de TAE
-
-El proyecto incluye un test (`assert_tae_excludes_commissions.sql`) que genera un **warning** intencionalmente. Este test detecta que el cálculo de TAE no incluye las comisiones de apertura, lo cual incumple la normativa del Banco de España.
-
-### Para solucionar el warning:
-
-1. Modificar `models/marts/fct_loans.sql`
-2. Actualizar el cálculo de TAE para incluir comisiones:
-
-```sql
--- Antes (incorrecto)
-round(
-    (power(1 + (l.interest_rate / 100 / 12), 12) - 1) * 100,
-    2
-) as tae,
-
--- Después (correcto - incluye comisión de apertura del 1%)
-round(
-    (power(1 + ((l.interest_rate + 1.0) / 100 / 12), 12) - 1) * 100,
-    2
-) as tae,
-```
-
-## 🚀 Inicio Rápido
+See [demo/FIELD.md](demo/FIELD.md) for the full presenter path. Short version:
 
 ```bash
-# Instalar dependencias
-dbt deps
-
-# Cargar los seeds
-dbt seed
-
-# Ejecutar los modelos
-dbt run
-
-# Ejecutar los tests
-dbt test
-
-# Generar documentación
-dbt docs generate
-dbt docs serve
+python3 -m venv .venv && source .venv/bin/activate
+pip install dbt-core dbt-snowflake
+# copy profiles.example.yml → ~/.dbt/profiles.yml (profile name: analytics)
+dbt debug && dbt seed && dbt run && dbt test
 ```
 
-## 📊 Exposures
+Or use **dbt Fusion** (`dbtf`) if you have it installed.
 
-El proyecto define tres exposures en `models/marts/_marts_models.yml`:
+## Exposures
 
-| Dashboard | Descripción | Modelos |
-|-----------|-------------|---------|
-| customer_analytics_dashboard | Análisis de clientes y segmentación | dim_customers, fct_transactions |
-| loan_portfolio_report | Cartera de préstamos y morosidad | fct_loans, dim_customers, dim_products |
-| branch_performance_report | Rendimiento de sucursales | dim_branches, fct_transactions |
+Defined in `models/marts/_models.yml`:
 
-## 🇪🇸 Localización España
+| Dashboard | Use | Models |
+|-----------|-----|--------|
+| customer_analytics_dashboard | Marketing / personal banking | dim_customers, fct_transactions |
+| loan_portfolio_report | Risk / Bank of Spain narrative | rpt_loan_risk_summary, dim_customers, dim_products |
+| branch_performance_report | Commercial leadership | dim_branches, fct_transactions |
 
-- Nombres y apellidos españoles
-- DNI/NIE válidos (formato)
-- Ciudades y comunidades autónomas reales
-- Productos bancarios típicos del mercado español
-- Normativa del Banco de España (umbrales de morosidad, TAE)
-- IVA y comisiones según regulación española
+## Spain localization
 
-## 🛠️ Requisitos
+Spanish names, DNI/NIE format, real autonomous communities, retail products, Bank of Spain default-rate / TAE language. YAML descriptions in the models may still be Spanish; **all presenter prompts are English**.
 
-- dbt Core 1.5+ o dbt Cloud
-- Adaptador de base de datos compatible (Snowflake, BigQuery, Redshift, Postgres, etc.)
+## Requirements
 
-## 📝 Licencia
+- dbt Core 1.5+ **or** dbt Fusion, plus the Snowflake adapter/connection
+- `profiles.yml` with profile `analytics`
 
-Proyecto de demostración - Uso interno.
-
----
-
-Desarrollado con ❤️ usando [dbt](https://www.getdbt.com/)
+Internal demo — Field / TAM use.
