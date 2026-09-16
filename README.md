@@ -55,6 +55,16 @@ dbt debug && dbt seed && dbt run && dbt test
 
 Or use **dbt Fusion** (`dbtf`) if you have it installed.
 
+### Credentials on Cloud Agents
+
+`profiles.example.yml` reads Snowflake credentials from environment variables, so
+`dbt parse` / `dbt ls` work with no credentials and live runs pick up **Secrets**.
+To enable `dbt debug` / `seed` / `run` / `test` on a Cloud Agent, add these in the
+**Secrets** panel (right-hand side of the chat): `SNOWFLAKE_ACCOUNT`,
+`SNOWFLAKE_USER`, `SNOWFLAKE_PASSWORD`, `SNOWFLAKE_ROLE`, `SNOWFLAKE_DATABASE`,
+`SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_SCHEMA`. Snowflake egress
+(`*.snowflakecomputing.com`) is already in `.cursor/environment.json`.
+
 ## Exposures
 
 Defined in `models/marts/_models.yml`:
@@ -71,7 +81,7 @@ Spanish names, DNI/NIE format, real autonomous communities, retail products, Ban
 
 ## Requirements
 
-- dbt Core 1.5+ **or** dbt Fusion, plus the Snowflake adapter/connection
-- `profiles.yml` with profile `analytics`
+- dbt Core 1.12 (the Cloud Agent pins 1.12.0) **or** dbt Fusion, plus the Snowflake adapter/connection
+- `profiles.yml` with profile `analytics` (env-var based; see Credentials above)
 
 Internal demo — Field / TAM use.
