@@ -6,7 +6,7 @@ python3 -m venv .venv
 # shellcheck disable=SC1091
 source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install "dbt-core>=1.10,<1.11" "dbt-snowflake>=1.10,<1.11"
+pip install "dbt-core>=1.12,<1.13" "dbt-snowflake>=1.12,<1.13"
 
 mkdir -p "${HOME}/.dbt"
 if [[ ! -f "${HOME}/.dbt/profiles.yml" ]]; then
