@@ -310,7 +310,7 @@ plus:
 - Object counts: 18 models, 6 seeds, 53 tests, 3 exposures, 23 metrics, 3 semantic models
 - Known accepted warning (if still present): unclassified loans / TAE
 - Is it production-ready? Use: Green / Amber / Red with 3 bullets max
-- Top 2 operational risks (e.g. overly broad Snowflake role, Python 3.9, dbt 1.10 deprecated)
+- Top 2 operational risks (e.g. overly broad Snowflake role, dbt-core pinned to 1.12.0 not latest 1.12.x)
 
 Do not paste full logs. Extract timings from the "Finished running … in …" lines.
 ```

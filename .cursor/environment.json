@@ -13,6 +13,7 @@
     "api.github.com",
     "cli.github.com",
     "hub.docker.com",
-    "registry.npmjs.org"
+    "registry.npmjs.org",
+    "*.snowflakecomputing.com"
   ]
 }
